@@ -1,5 +1,6 @@
 package Controle;
 
+import Limite.*;
 import java.io.Serializable;
 
 public class ControlePrincipal implements Serializable {
@@ -11,5 +12,12 @@ public class ControlePrincipal implements Serializable {
     private ControleProposta objCtrProposta;
     private ControleVendedor objCtrVendedor;
     private ControleVisita objCtrVisita;
+    
+    private LimitePrincipal objLimPrincipal;
+
+    public ControlePrincipal() {
+        objLimPrincipal = new LimitePrincipal();
+    }
+    
 
 }
