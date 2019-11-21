@@ -6,23 +6,25 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ControleComprador{
     // Array do comprador
-    private ArrayList<Comprador> arrayComprador = new ArrayList<Comprador>();
+    private ArrayList<Comprador> arrayComprador = new ArrayList<>();
 
     public ControleComprador() throws Exception{
         desserializaComprador();
+        //testa();
     }
     
-    public void teste(){
-        for(Comprador c :arrayComprador){
+    public void testa(){
+        System.out.println("**** COMPRADOR ****");
+        for(Comprador c: arrayComprador){
             System.out.println(c.getNome());
         }
+        System.out.println("*******************");
     }
-    // Cria novo comprador e colcoa no array
+    
     public void criaComprador(String cpf, String nome, String email, String fone, String contatoPref) {
         Comprador comprador = new Comprador(cpf, nome, email, fone, contatoPref);
         arrayComprador.add(comprador); 

@@ -3,7 +3,6 @@ package Limite;
 
 import java.awt.*;
 import javax.swing.*;
-import Controle.ControleComprador;
 import Controle.ControlePrincipal;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,14 +49,31 @@ class LimiteComprador extends JPanel{
         this.add(lblContato);
         this.add(txtContato);
         
-        JButton jb = new JButton("Cadastrar");
-        this.add(jb);
-        jb.addActionListener(new ActionListener() {
+        JButton jbCadastrar = new JButton("Cadastrar");
+        JButton jbVoltar = new JButton("Voltar");
+        this.add(jbCadastrar);
+        this.add(jbVoltar);
+        
+        jbCadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 objCtrPrincipal.getObjCtrComprador().criaComprador(txtCPF.getText(), txtNome.getText(), txtEmail.getText(), txtFone.getText(), txtContato.getText());
                 JOptionPane.showMessageDialog(null, "Comprador cadastrado");
                 
+                txtCPF.setText("");
+                txtContato.setText("");
+                txtEmail.setText("");
+                txtFone.setText("");
+                txtNome.setText("");
+                
+                JPanel cards = objLimPrincipal.cards;
+                CardLayout cardCadComprador = (CardLayout) (cards.getLayout());
+                cardCadComprador.show(cards, "Tela Principal");
+            }
+        });
+        jbVoltar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 txtCPF.setText("");
                 txtContato.setText("");
                 txtEmail.setText("");

@@ -94,7 +94,9 @@ public class LimitePrincipal extends JFrame{
         cadastrarComprador.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         cards.add(cadastrarComprador, "Cadastrar Comprador");
         
-        
+        LimiteCorretor cadastrarCorretor = new LimiteCorretor(objCtrPrincipal, this, 1);
+        cadastrarCorretor.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        cards.add(cadastrarCorretor, "Cadastrar Corretor");
         
         
         // Ações dos menus
@@ -105,7 +107,13 @@ public class LimitePrincipal extends JFrame{
                 cardCadComprador.show(cards, "Cadastrar Comprador");
             }
         });
-        
+        cadCorretor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cardCadComprador = (CardLayout) (cards.getLayout());
+                cardCadComprador.show(cards, "Cadastrar Corretor");
+            }
+        });
     }
     
 }

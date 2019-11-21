@@ -19,8 +19,8 @@ public class ControlePrincipal{
     public ControlePrincipal() {
         try{
             objCtrComprador = new ControleComprador();
-            /*objCtrCorretor = new ControleCorretor();
-            objCtrImovel = new ControleImovel();
+            objCtrCorretor = new ControleCorretor();
+            /*objCtrImovel = new ControleImovel();
             objCtrProposta = new ControleProposta();
             objCtrVendedor = new ControleVendedor();
             objCtrVisita = new ControleVisita();*/
@@ -35,8 +35,8 @@ public class ControlePrincipal{
     public void finalize(){
         try{
             objCtrComprador.finalize();
-            /*objCtrCorretor.finalize();
-            objCtrImovel.finalize();
+            objCtrCorretor.finalize();
+            /*objCtrImovel.finalize();
             objCtrProposta.finalize();
             objCtrVendedor.finalize();
             objCtrVisita.finalize();*/
