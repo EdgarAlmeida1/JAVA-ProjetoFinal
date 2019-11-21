@@ -15,6 +15,7 @@ public class ControlePrincipal{
     
     private LimitePrincipal objLimPrincipal;
 
+    // Criação dos controles e do limite
     public ControlePrincipal() {
         try{
             objCtrComprador = new ControleComprador();
@@ -24,19 +25,21 @@ public class ControlePrincipal{
             objCtrVendedor = new ControleVendedor();
             objCtrVisita = new ControleVisita();*/
         }catch (Exception error){
-            System.out.println("Erro na abertura de arquivo! \n Dica: Exclua arquivos já criados na pasta NetBenas");
+            System.out.println("Erro na abertura de arquivo");
             System.exit(1);
         }
         objLimPrincipal = new LimitePrincipal(this);
     }
     
-    public void teste(){
-        System.out.println("okok");
-    }
-    
+    // Fechamento dos controles com a serialização dos dados
     public void finalize(){
         try{
             objCtrComprador.finalize();
+            /*objCtrCorretor.finalize();
+            objCtrImovel.finalize();
+            objCtrProposta.finalize();
+            objCtrVendedor.finalize();
+            objCtrVisita.finalize();*/
         }catch (Exception error){
             System.out.println("Erro no fechamento dos arquivos");
         }finally{
@@ -45,6 +48,7 @@ public class ControlePrincipal{
         
     }
 
+    // Getters de cada controle
     public ControleComprador getObjCtrComprador() {
         return objCtrComprador;
     }

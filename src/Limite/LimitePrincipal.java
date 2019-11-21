@@ -7,6 +7,7 @@ import javax.swing.*;
 
 public class LimitePrincipal extends JFrame{
     private ControlePrincipal objCtrPrincipal;
+    public JPanel cards;
 
     public LimitePrincipal(ControlePrincipal objCtrPrin) {
         // Criação da JFrame
@@ -17,6 +18,7 @@ public class LimitePrincipal extends JFrame{
         this.setVisible(true);
         objCtrPrincipal = objCtrPrin;
         
+        // Listener para fechar e serializar os dados
         this.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {}
@@ -37,7 +39,7 @@ public class LimitePrincipal extends JFrame{
             public void windowDeactivated(WindowEvent e) {}
         });
         
-        // Criação do Menu
+        // Criação do Menu ***************************************************************************************************
         JMenuBar menu = new JMenuBar();
         this.setJMenuBar(menu);
         
@@ -79,15 +81,16 @@ public class LimitePrincipal extends JFrame{
         JMenuItem relatorioVendas = new JMenuItem("Vendas");
         relatorioMenu.add(valorTotal);
         relatorioMenu.add(relatorioVendas);
+        //  ***************************************************************************************************
         
         // Cards de ações
-        JPanel cards = new JPanel(new CardLayout());
+        cards = new JPanel(new CardLayout());
         this.getContentPane().add(cards, BorderLayout.CENTER);
 
         JPanel inicial = new JPanel(new BorderLayout());
         cards.add(inicial, "Tela Principal");
         
-        LimiteComprador cadastrarComprador = new LimiteComprador(objCtrPrincipal.getObjCtrComprador(), 1);
+        LimiteComprador cadastrarComprador = new LimiteComprador(objCtrPrincipal, this, 1);
         cadastrarComprador.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         cards.add(cadastrarComprador, "Cadastrar Comprador");
         
