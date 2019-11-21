@@ -5,8 +5,9 @@ import java.util.Calendar;
 import Modelo.Comprador;
 import Modelo.Corretor;
 import Utilitario.Util;
+import java.io.Serializable;
 
-public class Proposta {
+public class Proposta implements Serializable{
     private Calendar data;
     private Comprador comprador;
     private Corretor corretor;

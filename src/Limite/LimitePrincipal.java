@@ -6,22 +6,36 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class LimitePrincipal extends JFrame{
-// Limite das outras classes
+    private ControlePrincipal objCtrPrincipal;
 
-    private LimiteComprador objLimComprador;
-    private LimiteCorretor objLimCorretor;
-    private LimiteImovel objLimImovel;
-    private LimiteProposta objLimProposta;
-    private LimiteVendedor objLimVendedor;
-    private LimiteVisita objLimVisita;
-
-    public LimitePrincipal() {
+    public LimitePrincipal(ControlePrincipal objCtrPrin) {
         // Criação da JFrame
         super("IMOBILIARIA ItaHouse");
         this.setSize(720, 480);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        objCtrPrincipal = objCtrPrin;
+        
+        this.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosing(WindowEvent e) {
+                objCtrPrincipal.finalize();
+                System.exit(0);
+            }
+            @Override
+            public void windowClosed(WindowEvent e) {}
+            @Override
+            public void windowIconified(WindowEvent e) {}
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        });
         
         // Criação do Menu
         JMenuBar menu = new JMenuBar();
@@ -73,7 +87,7 @@ public class LimitePrincipal extends JFrame{
         JPanel inicial = new JPanel(new BorderLayout());
         cards.add(inicial, "Tela Principal");
         
-        LimiteComprador cadastrarComprador = new LimiteComprador(1);
+        LimiteComprador cadastrarComprador = new LimiteComprador(objCtrPrincipal.getObjCtrComprador(), 1);
         cadastrarComprador.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         cards.add(cadastrarComprador, "Cadastrar Comprador");
         

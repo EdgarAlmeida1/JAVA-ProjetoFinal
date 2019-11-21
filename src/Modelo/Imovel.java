@@ -7,8 +7,9 @@ import java.util.Calendar;
 import Modelo.Vendedor;
 import java.util.ArrayList;
 import Utilitario.Util;
+import java.io.Serializable;
 
-public class Imovel {
+public class Imovel implements Serializable{
 
     private int codigo;
     private String tipo;
