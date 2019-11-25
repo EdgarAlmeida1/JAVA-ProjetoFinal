@@ -23,12 +23,13 @@ public class Imovel implements Serializable{
     private ArrayList<Visita> listaVisitas = new ArrayList();
     private ArrayList<Proposta> listaPropostas = new ArrayList();
 
-    public Imovel(int codigo, String tipo, String descricao, String arquivoFoto,
+    public Imovel(int codigo, String tipo, String descricao, String arquivoFoto, String estado,
             double preco, double comissao, Calendar dataInclusao, Vendedor vendedor) {
         this.codigo = codigo;
         this.tipo = tipo;
         this.descricao = descricao;
         this.arquivoFoto = arquivoFoto;
+        this.estado = estado;
         this.preco = preco;
         this.comissao = comissao;
         this.dataInclusao = dataInclusao;

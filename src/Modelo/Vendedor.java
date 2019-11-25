@@ -13,6 +13,7 @@ public class Vendedor extends Pessoa implements Serializable{
         this.contatoPref = contatoPref;
     }
 
+
     public String getContatoPref() {
         return contatoPref;
     }

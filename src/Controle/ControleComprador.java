@@ -17,7 +17,7 @@ public class ControleComprador{
         //testa();
     }
     
-    public void testa(){
+    public void testa(){ 
         System.out.println("**** COMPRADOR ****");
         for(Comprador c: arrayComprador){
             System.out.println(c.getNome());

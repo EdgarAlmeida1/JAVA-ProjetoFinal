@@ -9,12 +9,12 @@ import java.util.Calendar;
 public class ControleImovel implements Serializable {
 // Array do IMOVEL
 
-    ArrayList<Imovel> arrayImovel = new ArrayList<>();
+    private ArrayList<Imovel> arrayImovel = new ArrayList<>();
 
 // Cria um novo imovel e insere no aray
-    void criaImovel(int codigo, String tipo, String descricao, String arquivoFoto,
+    void criaImovel(int codigo, String tipo, String descricao, String arquivoFoto, String estado,
             double preco, double comissao, Calendar dataInclusao, Vendedor vendedor) {
-        Imovel imovel = new Imovel(codigo, tipo, descricao, arquivoFoto, preco, comissao, dataInclusao, vendedor);
+        Imovel imovel = new Imovel(codigo, tipo, descricao, arquivoFoto, estado, preco, comissao, dataInclusao, vendedor);
         arrayImovel.add(imovel);
     }
 
