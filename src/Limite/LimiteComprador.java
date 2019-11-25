@@ -27,6 +27,7 @@ class LimiteComprador extends JPanel{
     }
     
     private void cadastrarComprador(){
+        String str[] = {"Indiferente", "Telefone", "Email", "Mensagem Whatsapp"};
         JLabel lblCPF = new JLabel("Digite o CPF: ");
         JTextField txtCPF = new JTextField(15);
         JLabel lblNome = new JLabel("Digite o nome: ");
@@ -35,8 +36,8 @@ class LimiteComprador extends JPanel{
         JTextField txtEmail = new JTextField(15);
         JLabel lblFone = new JLabel("Digite o telefone: ");
         JTextField txtFone = new JTextField(15);
-        JLabel lblContato = new JLabel("Digite o contato preferencial: ");
-        JTextField txtContato = new JTextField(15);
+        JLabel lblContato = new JLabel("Selecione o contato preferencial: ");
+        JComboBox cmbContato = new JComboBox(str);
  
         this.add(lblCPF);
         this.add(txtCPF);
@@ -47,7 +48,7 @@ class LimiteComprador extends JPanel{
         this.add(lblFone);
         this.add(txtFone);
         this.add(lblContato);
-        this.add(txtContato);
+        this.add(cmbContato);
         
         JButton jbCadastrar = new JButton("Cadastrar");
         JButton jbVoltar = new JButton("Voltar");
@@ -57,32 +58,22 @@ class LimiteComprador extends JPanel{
         jbCadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                objCtrPrincipal.getObjCtrComprador().criaComprador(txtCPF.getText(), txtNome.getText(), txtEmail.getText(), txtFone.getText(), txtContato.getText());
+                objCtrPrincipal.getObjCtrComprador().criaComprador(txtCPF.getText(), txtNome.getText(), txtEmail.getText(), txtFone.getText(), (String) cmbContato.getSelectedItem());
                 JOptionPane.showMessageDialog(null, "Comprador cadastrado");
-                
-                txtCPF.setText("");
-                txtContato.setText("");
-                txtEmail.setText("");
-                txtFone.setText("");
-                txtNome.setText("");
+            
                 
                 JPanel cards = objLimPrincipal.cards;
-                CardLayout cardCadComprador = (CardLayout) (cards.getLayout());
-                cardCadComprador.show(cards, "Tela Principal");
+                CardLayout principal = (CardLayout) (cards.getLayout());
+                principal.show(cards, "Tela Principal");
             }
         });
         jbVoltar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                txtCPF.setText("");
-                txtContato.setText("");
-                txtEmail.setText("");
-                txtFone.setText("");
-                txtNome.setText("");
                 
                 JPanel cards = objLimPrincipal.cards;
-                CardLayout cardCadComprador = (CardLayout) (cards.getLayout());
-                cardCadComprador.show(cards, "Tela Principal");
+                CardLayout principal = (CardLayout) (cards.getLayout());
+                principal.show(cards, "Tela Principal");
             }
         });
     } 

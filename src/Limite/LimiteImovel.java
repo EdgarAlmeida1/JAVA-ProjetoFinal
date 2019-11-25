@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Limite;
 
 import Controle.*;
@@ -12,28 +8,24 @@ import Utilitario.Util;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 
-/**
- *
- * @author rafae
- */
+
 class LimiteImovel extends JPanel {
     private LimitePrincipal objLimPrincipal;
     private ControlePrincipal objCtrPrincipal;
-    public ControleImovel objCtrImovel;
+    String file = "";
+    File selectedFile;
+    ArrayList<Vendedor> vendedores = null;
     
-    DefaultListModel lm;
-   // private JList<Imovel> lista = new JList(lm);
-    Calendar calendario = Calendar.getInstance();
-    //Vendedor vend = new Vendedor();
-    
-    //JComboBox cmbTipo = new JComboBox(new Object[]{Util.CASA, Util.LOTE, Util.APTO, Util.SALA, Util.RURAL});
     
     public LimiteImovel(ControlePrincipal objCtrPrin, LimitePrincipal objLimPrin, int operacao) {
         objLimPrincipal = objLimPrin;
         objCtrPrincipal = objCtrPrin;
+        vendedores = objCtrPrincipal.getObjCtrVendedor().getArrayVendedor();
         this.setSize(720, 480);
         this.setLayout(new FlowLayout());
         
@@ -59,33 +51,29 @@ class LimiteImovel extends JPanel {
     
     //Case 1
     private void cadastrarImovel(){
+        String vends[] = new String[vendedores.size()];
+        for(int i=0;i<vendedores.size();i++) vends[i] = vendedores.get(i).getCpf();
+        
         JLabel lblCodigo = new JLabel("Digite o código do imóvel: ");
         JTextField txtCodigo = new JTextField(15);
         
-        JLabel lblTipo = new JLabel("Insira o tipo do imóvel: ");
-        JComboBox cmbTipo = new JComboBox(new Object[]{Util.CASA, Util.LOTE, Util.APTO, Util.SALA, Util.RURAL});
+        JLabel lblTipo = new JLabel("Selecione o tipo do imóvel: ");
+        JComboBox cmbTipo = new JComboBox(new String[]{Util.CASA, Util.LOTE, Util.APTO, Util.SALA, Util.RURAL});
         
         JLabel lblDescricao = new JLabel("Digite a descrição do imóvel: ");
         JTextField txtDescricao = new JTextField(50);
         
         JLabel lblArquivoFoto = new JLabel("Insira uma foto do imóvel: ");
-        JTextField txtArquivoFoto = new JTextField(15);
-        
-        JLabel lblEstado = new JLabel("Insira o estado do imóvel: ");
-        JComboBox cmbEstado = new JComboBox(new Object[]{Util.ATIVO, Util.INATIVO, Util.VENDIDO});
+        JButton jbUpar = new JButton("Inserir");
         
         JLabel lblPreco = new JLabel("Digite o preço do imóvel: ");
         JTextField txtPreco = new JTextField(10);
         
-        JLabel lblComissao = new JLabel("Digite a comissão: ");
-        JTextField txtComissao = new JTextField(2);
+        JLabel lblComissao = new JLabel("Selecione a comissão: ");
+        JComboBox cmbComissao = new JComboBox(new Double[]{0.01, 0.02, 0.03, 0.04, 0.05});
         
-        JLabel lblDataInclusao = new JLabel("Data de inclusão: ");
-        String strDataInclusao = calendario.get(Calendar.DAY_OF_MONTH) + "/" + calendario.get(Calendar.MONTH) + "/" + calendario.get(Calendar.YEAR);
-        JTextField txtDataInclusao = new JTextField(strDataInclusao);
-        txtDataInclusao.setEditable(false);
         JLabel lblVendedor = new JLabel("Vendedor responsável: ");
-        JTextField txtVendedor = new JTextField(30);
+        JComboBox cmbVendedores = new JComboBox(vends);
         
         this.add(lblCodigo);
         this.add(txtCodigo);
@@ -94,66 +82,56 @@ class LimiteImovel extends JPanel {
         this.add(lblDescricao);
         this.add(txtDescricao);
         this.add(lblArquivoFoto);
-        this.add(txtArquivoFoto);
-        this.add(lblEstado);
-        this.add(cmbEstado);
+        this.add(jbUpar);
         this.add(lblPreco);
         this.add(txtPreco);
         this.add(lblComissao);
-        this.add(txtComissao);
-        this.add(lblDataInclusao);
-        this.add(txtDataInclusao);
+        this.add(cmbComissao);
         this.add(lblVendedor);
-        this.add(txtVendedor);
+        this.add(cmbVendedores);
         
       
-        
         JButton jbCadastrar = new JButton("Cadastrar");
         JButton jbVoltar = new JButton("Voltar");
         this.add(jbCadastrar);
         this.add(jbVoltar);
         
+        jbUpar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+                int returnValue = jfc.showOpenDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    selectedFile = jfc.getSelectedFile();
+                    file = selectedFile.getName();
+                }
+            }
+        });
+        
         jbCadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String strTipo = (String) cmbTipo.getSelectedItem();
-                String strEstado = (String) cmbEstado.getSelectedItem();
-                /*
-                objCtrPrincipal.getObjCtrImovel().criaImovel(
-                        Integer.parseInt(txtCodigo.getText()), //int codigo
-                        strTipo,  //String tipo
-                        txtDescricao.getText(), //String descricao
-                        txtArquivoFoto.getText(),  //String arquivoFoto
-                        strEstado, //String estado
-                        Double.parseDouble(txtPreco.getText()), //Double preco
-                        Double.parseDouble(txtComissao.getText()), //Double comissao 
-                        calendario,  //Calendar dataInclusao
-                        //txtVendedor.getText() 
-                        vend); //Vendedor vendedor
-                        */
+                String cpfVend = (String) cmbVendedores.getSelectedItem();
+                Vendedor v = null;
+                for(Vendedor vi:vendedores){
+                    if(vi.getCpf().equals(cpfVend)){
+                        v = vi; break;
+                    }
+                }
+                objCtrPrincipal.getObjCtrImovel().criaImovel(Integer.parseInt(txtCodigo.getText()), (String) cmbTipo.getSelectedItem(), txtDescricao.getText(), 
+                        file, Double.parseDouble(txtPreco.getText()), (Double) cmbComissao.getSelectedItem(), Calendar.getInstance(), v);
+                JOptionPane.showMessageDialog(null, "Imóvel cadastrado");
+            
                 
-                txtCodigo.setText("");
-                //cmbTipo.setText("");
-                txtDescricao.setText("");
-                txtArquivoFoto.setText("");
-                txtPreco.setText("");
-                txtComissao.setText("");
-                txtDataInclusao.setText("");
-                txtVendedor.setText("");
+                JPanel cards = objLimPrincipal.cards;
+                CardLayout principal = (CardLayout) (cards.getLayout());
+                principal.show(cards, "Tela Principal");
             }
         });
         
         jbVoltar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                txtCodigo.setText("");
-                //cmbTipo.setText("");
-                txtDescricao.setText("");
-                txtArquivoFoto.setText("");
-                txtPreco.setText("");
-                txtComissao.setText("");
-                txtDataInclusao.setText("");
-                txtVendedor.setText("");
                 
                 
                 JPanel cards = objLimPrincipal.cards;
@@ -172,7 +150,7 @@ class LimiteImovel extends JPanel {
     
     //Case 2
     private void catalogoImoveis(){
-        JLabel lblTipo = new JLabel("Insira o tipo do imóvel que deseja ver: ");
+        /*JLabel lblTipo = new JLabel("Insira o tipo do imóvel que deseja ver: ");
         JComboBox cmbTipo = new JComboBox(new Object[]{Util.CASA, Util.LOTE, Util.APTO, Util.SALA, Util.RURAL});
         
         this.add(lblTipo);
@@ -237,7 +215,7 @@ class LimiteImovel extends JPanel {
                 cardCadComprador.show(cards, "Tela Principal");
             }
         });
-        
+        */
         
     }
     

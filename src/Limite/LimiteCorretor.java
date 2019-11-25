@@ -2,6 +2,7 @@ package Limite;
 
 import Controle.ControlePrincipal;
 import java.awt.CardLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
@@ -29,6 +30,7 @@ class LimiteCorretor extends JPanel {
 
         // Configuração Layout
         this.setSize(700, 400);
+        this.setLayout(new FlowLayout());
 
         // Chamar as funções de acordo com a função que chama o cosntrutor
         switch (operacao) {
@@ -51,7 +53,7 @@ class LimiteCorretor extends JPanel {
 
         // Botões, um para calcular o valor e outro para atualziar a lista de corretores
         JButton BtCalcular = new JButton("Calcular valor total");
-        JButton BtAtualizar = new JButton("Atualizar lista de corretores");
+        JButton BtVoltar = new JButton("Voltar");
 
         // Area de exibição de texto, um para a lista e outro para o valor final
         JTextArea area = new JTextArea();
@@ -66,10 +68,10 @@ class LimiteCorretor extends JPanel {
         JTextField textCRECI = new JTextField(15);
         JTextField textDataInicial = new JTextField(4);
         JTextField textDataFinal = new JTextField(4);
+        
 
         // Adicionando os botões na tela
         add(area);
-        add(BtAtualizar);
         add(CRECI);
         add(textCRECI);
         add(dataInicial);
@@ -78,6 +80,7 @@ class LimiteCorretor extends JPanel {
         add(textDataFinal);
         add(BtCalcular);
         add(total);
+        add(BtVoltar);
 
         // Carregando a lista de corretores no sistema 
         area.setText(objCtrPrincipal.getObjCtrCorretor().TodosCorretores());
@@ -102,16 +105,13 @@ class LimiteCorretor extends JPanel {
                 }
             }
         });
-
-        // Definindo a ação do botão BtAtualizar, que vai atualizar a lista se houver novos corretores
-        BtAtualizar.addActionListener(new ActionListener() {
+        BtVoltar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    area.setText(objCtrPrincipal.getObjCtrCorretor().TodosCorretores());
-                } catch (Exception ex) {
-                    Logger.getLogger(LimiteCorretor.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                
+                JPanel cards = objLimPrincipal.cards;
+                CardLayout principal = (CardLayout) (cards.getLayout());
+                principal.show(cards, "Tela Principal");
             }
         });
 
@@ -120,7 +120,7 @@ class LimiteCorretor extends JPanel {
     private void VisitasCorretor() throws Exception {
         // Botões, um para calcular o valor e outro para atualziar a lista de corretores
         JButton BtVisitas = new JButton("Mostrar Visitas");
-        JButton BtAtualizar = new JButton("Atualizar lista de corretores");
+        JButton BtVoltar = new JButton("Voltar");
 
         // Area de exibição de texto, um para a lista e outro para o valor final
         JTextArea area = new JTextArea();
@@ -138,7 +138,6 @@ class LimiteCorretor extends JPanel {
 
         // Adicionando os botões na tela
         add(area);
-        add(BtAtualizar);
         add(CRECI);
         add(textCRECI);
         add(dataInicial);
@@ -147,6 +146,7 @@ class LimiteCorretor extends JPanel {
         add(textDataFinal);
         add(BtVisitas);
         add(total);
+        add(BtVoltar);
 
         // Carregando a lista de corretores no sistema 
         area.setText(objCtrPrincipal.getObjCtrCorretor().TodosCorretores());
@@ -171,18 +171,16 @@ class LimiteCorretor extends JPanel {
                 }
             }
         });
-
-        // Definindo a ação do botão BtAtualizar, que vai atualizar a lista se houver novos corretores
-        BtAtualizar.addActionListener(new ActionListener() {
+        BtVoltar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    area.setText(objCtrPrincipal.getObjCtrCorretor().TodosCorretores());
-                } catch (Exception ex) {
-                    Logger.getLogger(LimiteCorretor.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                
+                JPanel cards = objLimPrincipal.cards;
+                CardLayout principal = (CardLayout) (cards.getLayout());
+                principal.show(cards, "Tela Principal");
             }
         });
+
     }
 
     // Função para cadastrar os corretores no sistema
@@ -230,13 +228,6 @@ class LimiteCorretor extends JPanel {
                         txtEmail.getText(), txtFone.getText(), txtCreci.getText(), Double.parseDouble(txtCorretagem.getText()));
                 JOptionPane.showMessageDialog(null, "Corretor cadastrado");
 
-                txtCPF.setText("");
-                txtCreci.setText("");
-                txtEmail.setText("");
-                txtFone.setText("");
-                txtNome.setText("");
-                txtCorretagem.setText("");
-
                 JPanel cards = objLimPrincipal.cards;
                 CardLayout cardCadComprador = (CardLayout) (cards.getLayout());
                 cardCadComprador.show(cards, "Tela Principal");
@@ -247,13 +238,7 @@ class LimiteCorretor extends JPanel {
         jbVoltar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                txtCPF.setText("");
-                txtCreci.setText("");
-                txtEmail.setText("");
-                txtFone.setText("");
-                txtNome.setText("");
-                txtCorretagem.setText("");
-
+               
                 JPanel cards = objLimPrincipal.cards;
                 CardLayout cardCadComprador = (CardLayout) (cards.getLayout());
                 cardCadComprador.show(cards, "Tela Principal");

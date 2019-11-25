@@ -20,9 +20,9 @@ public class ControlePrincipal {
         try {
             objCtrComprador = new ControleComprador();
             objCtrCorretor = new ControleCorretor();
-            /*objCtrImovel = new ControleImovel();
-            objCtrProposta = new ControleProposta();
+            objCtrImovel = new ControleImovel();
             objCtrVendedor = new ControleVendedor();
+            /*objCtrProposta = new ControleProposta();
             objCtrVisita = new ControleVisita();*/
         } catch (Exception error) {
             System.out.println("Erro na abertura de arquivo");
@@ -36,9 +36,9 @@ public class ControlePrincipal {
         try {
             objCtrComprador.finalize();
             objCtrCorretor.finalize();
-            /*objCtrImovel.finalize();
-            objCtrProposta.finalize();
+            objCtrImovel.finalize();
             objCtrVendedor.finalize();
+            /*objCtrProposta.finalize();
             objCtrVisita.finalize();*/
         } catch (Exception error) {
             System.out.println("Erro no fechamento dos arquivos");

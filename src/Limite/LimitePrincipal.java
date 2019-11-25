@@ -100,35 +100,56 @@ public class LimitePrincipal extends JFrame {
 
         // Cards de ações
         cards = new JPanel(new CardLayout());
-        this.getContentPane().add(cards, BorderLayout.CENTER);
+        this.add(cards, BorderLayout.CENTER);
 
         JPanel inicial = new JPanel(new BorderLayout());
         cards.add(inicial, "Tela Principal");
 
-        // Cadastrar comprador
-        LimiteComprador cadastrarComprador = new LimiteComprador(objCtrPrincipal, this, 1);
-        cadastrarComprador.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        cards.add(cadastrarComprador, "Cadastrar Comprador");
-
-        // Cadastrar corretor 
-        LimiteCorretor cadastrarCorretor = new LimiteCorretor(objCtrPrincipal, this, 1);
-        cadastrarCorretor.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        cards.add(cadastrarCorretor, "Cadastrar Corretor");
-
-        // Calcular valor total faturado
-        LimiteCorretor totalcorretor = new LimiteCorretor(objCtrPrincipal, this, 2);
-        totalcorretor.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        cards.add(totalcorretor, "Valor total faturado por corretor");
-
-        // Exibir imoveis visitados por corretor
-        LimiteCorretor visitCorretor = new LimiteCorretor(objCtrPrincipal, this, 3);
-        visitCorretor.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        cards.add(visitCorretor, "Visitas por corretor");
+        JPanel auxiliar = new JPanel();
+        auxiliar.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        cards.add(auxiliar, "Auxiliar");
 
         // Ações dos menus
+        cadComprador.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LimiteComprador cadastrarComprador = new LimiteComprador(objCtrPrincipal, LimitePrincipal.this, 1);
+                cadastrarComprador.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                cards.add(cadastrarComprador, "Cadastrar Comprador");
+                CardLayout cardCadComprador = (CardLayout) (cards.getLayout());
+                cardCadComprador.show(cards, "Cadastrar Comprador");
+            }
+        });
+        cadCorretor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LimiteCorretor cadastrarCorretor = null;
+                try {
+                    cadastrarCorretor = new LimiteCorretor(objCtrPrincipal, LimitePrincipal.this, 1);
+                } catch (Exception error) {
+                    objCtrPrincipal.finalize();
+                    System.exit(1);
+                }
+
+                cadastrarCorretor.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                cards.add(cadastrarCorretor, "Cadastrar Corretor");
+                CardLayout cardCadComprador = (CardLayout) (cards.getLayout());
+                cardCadComprador.show(cards, "Cadastrar Corretor");
+            }
+        });
         valorTotalCorretor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                LimiteCorretor totalcorretor = null;
+                try {
+                    totalcorretor = new LimiteCorretor(objCtrPrincipal, LimitePrincipal.this, 2);
+                } catch (Exception error) {
+                    objCtrPrincipal.finalize();
+                    System.exit(1);
+                }
+
+                totalcorretor.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                cards.add(totalcorretor, "Valor total faturado por corretor");
                 CardLayout valorTotalCorretor = (CardLayout) (cards.getLayout());
                 valorTotalCorretor.show(cards, "Valor total faturado por corretor");
             }
@@ -137,23 +158,38 @@ public class LimitePrincipal extends JFrame {
         visitasCorretor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                LimiteCorretor visitCorretor = null;
+                try {
+                    visitCorretor = new LimiteCorretor(objCtrPrincipal, LimitePrincipal.this, 3);
+                } catch (Exception error) {
+                    objCtrPrincipal.finalize();
+                    System.exit(1);
+                }
+
+                visitCorretor.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                cards.add(visitCorretor, "Visitas por corretor");
                 CardLayout visitasCorretor = (CardLayout) (cards.getLayout());
                 visitasCorretor.show(cards, "Visitas por corretor");
             }
         });
-
-        cadComprador.addActionListener(new ActionListener() {
+        cadVendedor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CardLayout cardCadComprador = (CardLayout) (cards.getLayout());
-                cardCadComprador.show(cards, "Cadastrar Comprador");
+                LimiteVendedor cadastrarVendedor = new LimiteVendedor(objCtrPrincipal, LimitePrincipal.this, 1);
+                cadastrarVendedor.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                cards.add(cadastrarVendedor, "Cadastrar Corretor");
+                CardLayout cardCadVendedor = (CardLayout) (cards.getLayout());
+                cardCadVendedor.show(cards, "Cadastrar Corretor");
             }
         });
-        cadCorretor.addActionListener(new ActionListener() {
+        cadImovel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CardLayout cardCadComprador = (CardLayout) (cards.getLayout());
-                cardCadComprador.show(cards, "Cadastrar Corretor");
+                LimiteImovel cadastrarImovel = new LimiteImovel(objCtrPrincipal, LimitePrincipal.this, 1);
+                cadastrarImovel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                cards.add(cadastrarImovel, "Cadastrar Imovel");
+                CardLayout cardCadImovel = (CardLayout) (cards.getLayout());
+                cardCadImovel.show(cards, "Cadastrar Imovel");
             }
         });
     }
