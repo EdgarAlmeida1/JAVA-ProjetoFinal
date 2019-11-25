@@ -17,4 +17,8 @@ public class ControleImovel implements Serializable {
         Imovel imovel = new Imovel(codigo, tipo, descricao, arquivoFoto, preco, comissao, dataInclusao, vendedor);
         arrayImovel.add(imovel);
     }
+
+    public ArrayList<Imovel> getListaImovel() {
+        return arrayImovel;
+    }
 }
