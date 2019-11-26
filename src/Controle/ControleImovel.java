@@ -5,9 +5,10 @@ import Modelo.Vendedor;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -18,6 +19,10 @@ public class ControleImovel {
 
     public ControleImovel() throws Exception{
         desserializaImovel();
+    }
+    
+    public void copiaArquivo(File a, File b) throws IOException{
+        Files.copy(a.toPath(), b.toPath());
     }
 
 // Cria um novo imovel e insere no aray

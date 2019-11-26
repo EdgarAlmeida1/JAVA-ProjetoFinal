@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
@@ -17,8 +18,7 @@ import javax.swing.filechooser.FileSystemView;
 class LimiteImovel extends JPanel {
     private LimitePrincipal objLimPrincipal;
     private ControlePrincipal objCtrPrincipal;
-    String file = "";
-    File selectedFile;
+    File selectedFile, destination;
     ArrayList<Vendedor> vendedores = null;
     
     
@@ -103,7 +103,6 @@ class LimiteImovel extends JPanel {
                 int returnValue = jfc.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     selectedFile = jfc.getSelectedFile();
-                    file = selectedFile.getName();
                 }
             }
         });
@@ -119,9 +118,13 @@ class LimiteImovel extends JPanel {
                     }
                 }
                 objCtrPrincipal.getObjCtrImovel().criaImovel(Integer.parseInt(txtCodigo.getText()), (String) cmbTipo.getSelectedItem(), txtDescricao.getText(), 
-                        file, Double.parseDouble(txtPreco.getText()), (Double) cmbComissao.getSelectedItem(), Calendar.getInstance(), v);
+                        txtCodigo.getText(), Double.parseDouble(txtPreco.getText()), (Double) cmbComissao.getSelectedItem(), Calendar.getInstance(), v);
                 JOptionPane.showMessageDialog(null, "Imóvel cadastrado");
-            
+                
+                destination = new File("images/"+txtCodigo.getText());
+                try {
+                    objCtrPrincipal.getObjCtrImovel().copiaArquivo(selectedFile, destination);
+                } catch (IOException ex) {}
                 
                 JPanel cards = objLimPrincipal.cards;
                 CardLayout principal = (CardLayout) (cards.getLayout());
@@ -150,7 +153,7 @@ class LimiteImovel extends JPanel {
     
     //Case 2
     private void catalogoImoveis(){
-        /*JLabel lblTipo = new JLabel("Insira o tipo do imóvel que deseja ver: ");
+        JLabel lblTipo = new JLabel("Insira o tipo do imóvel que deseja ver: ");
         JComboBox cmbTipo = new JComboBox(new Object[]{Util.CASA, Util.LOTE, Util.APTO, Util.SALA, Util.RURAL});
         
         this.add(lblTipo);
@@ -161,47 +164,17 @@ class LimiteImovel extends JPanel {
         this.add(jbProcurar);
         this.add(jbVoltar);
         
-        this.add(jbProcurar);
-        this.add(jbVoltar);
-        //this.add(lista); //Conferir
+        DefaultListModel lm = new DefaultListModel();
+        JList listaImovel = new JList(lm);
+        
+        //listaImovel.addListSelectionListener();
         
         jbProcurar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (cmbTipo.getSelectedItem() == Util.CASA){
-                    for (Imovel imov: objCtrImovel.getListaImovel()){
-                        if (imov.getTipo() == Util.CASA){
-                            //lm.addElement(imov);
-                        }
-                    }
-                }
-                else if (cmbTipo.getSelectedItem() == Util.LOTE){
-                    for (Imovel imov: objCtrImovel.getListaImovel()){
-                        if (imov.getTipo() == Util.LOTE){
-                            //lm.addElement(imov);
-                        }
-                    }
-                }
-                else if (cmbTipo.getSelectedItem() == Util.APTO){
-                    for (Imovel imov: objCtrImovel.getListaImovel()){
-                        if (imov.getTipo() == Util.APTO){
-                            //lm.addElement(imov);
-                        }
-                    }
-                }
-                else if (cmbTipo.getSelectedItem() == Util.SALA){
-                    for (Imovel imov: objCtrImovel.getListaImovel()){
-                        if (imov.getTipo() == Util.SALA){
-                            //lm.addElement(imov);
-                        }
-                    }
-                }
-                else if (cmbTipo.getSelectedItem() == Util.RURAL){
-                    for (Imovel imov: objCtrImovel.getListaImovel()){
-                        if (imov.getTipo() == Util.RURAL){
-                            //lm.addElement(imov);
-                        }
-                    }
+                String itemSelecao = (String) cmbTipo.getSelectedItem();
+                for(Imovel imov: objCtrPrincipal.getObjCtrImovel().getListaImovel()){
+                    if(imov.getEstado().equals(Util.ATIVO) && imov.getTipo().equals(itemSelecao)) lm.addElement(imov.getCodigo());
                 }
                 
             }
@@ -215,7 +188,7 @@ class LimiteImovel extends JPanel {
                 cardCadComprador.show(cards, "Tela Principal");
             }
         });
-        */
+        
         
     }
     
