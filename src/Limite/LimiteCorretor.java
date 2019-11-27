@@ -216,6 +216,7 @@ class LimiteCorretor extends JPanel {
         JPanel p4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel p5 = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel p6 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p7 = new JPanel(new FlowLayout(FlowLayout.CENTER));
  
         p1.add(lblCPF);
         p1.add(txtCPF);
@@ -227,8 +228,10 @@ class LimiteCorretor extends JPanel {
         p4.add(txtFone);
         p5.add(lblCreci);
         p5.add(txtCreci);
-        p6.add(jbCadastrar);
-        p6.add(jbVoltar);
+        p6.add(lblCorretagem);
+        p6.add(txtCorretagem);
+        p7.add(jbCadastrar);
+        p7.add(jbVoltar);
         this.add(Box.createVerticalGlue());
         this.add(p1);
         this.add(p2);
@@ -236,6 +239,7 @@ class LimiteCorretor extends JPanel {
         this.add(p4);
         this.add(p5);
         this.add(p6);
+        this.add(p7);
         this.add(Box.createVerticalGlue());
         
 

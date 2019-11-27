@@ -208,32 +208,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener{
             }
             
         });
-        
-       
-        
-        
-        /*
-        public void valueChanged(ListSelectionEvent e) {
-        if (e.getValueIsAdjusting() == false) {
-            if (dinamicList.getSelectedIndex() != -1) {
-                int index = dinamicList.getSelectedIndex();
-                System.out.println(index);
-                listModel.remove(index);
-            }
-        }
-        
-        
-        listaImovel.addListSelctionListener(ListSelectionEvent ae){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ImageIcon icon = new ImageIcon("images/"+ .getCodigo()); // Cria o icone
-                //Exibir icone
-            }
-        }); */
-        
-        
-        
-        
+         
         jbVoltar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {         
@@ -264,7 +239,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener{
     
     //Case 5:
     private void relatorioVendas(){
-    
+        
     }
     
     //======================================================================================================
@@ -277,28 +252,90 @@ class LimiteImovel extends JPanel implements ListSelectionListener{
     //======================================================================================================
 
     public void valueChanged(ListSelectionEvent e){
-        if(e.getValueIsAdjusting() == false){
-            if(listaImovel.getSelectedIndex() != -1){                
-                String index = (String) listaImovel.getSelectedValue();
-                String x;
-                for(int i = 8; ; i++){
-                    if(index.charAt(i) == ' '){
-                        x = index.substring(8, i-1); break;
+        if(e.getSource() == listaImovel){
+            if(e.getValueIsAdjusting() == false){
+                if(listaImovel.getSelectedIndex() != -1){                
+                    String index = (String) listaImovel.getSelectedValue();
+                    String x;
+                    for(int i = 8; ; i++){
+                        if(index.charAt(i) == ' '){
+                            x = index.substring(8, i-1); break;
+                        }
                     }
-                }
-                int codigo = Integer.parseInt(x);
-                
-                for(Imovel imov: objCtrPrincipal.getObjCtrImovel().getListaImovel()){
-                    if(imov.getCodigo() == codigo){
-                        ImageIcon icon = new ImageIcon("images/" + codigo) {}; // Cria o icone
-                        System.out.println("Entrou aqui");
-                        //Criar novo JFrame para exibir a imagem
-                        
+                    int codigo = Integer.parseInt(x);
+                    Imovel selecionado = null;
+                    ImageIcon icon = null;
+                    for(Imovel imov: objCtrPrincipal.getObjCtrImovel().getListaImovel()){
+                        if(imov.getCodigo() == codigo){
+                            icon = new ImageIcon("images/" + codigo) {}; // Cria o icone
+                            selecionado = imov;
+                            break;
+                        }
                     }
+                    JFrame telaImovel = new JFrame("" + codigo);
+                    telaImovel.setSize(600, 400);
+                    telaImovel.setResizable(false);
+                    telaImovel.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                    telaImovel.setLocationRelativeTo(null);
+                    telaImovel.setVisible(true);
+                    telaImovel.setLayout(new GridLayout(1, 2));
+                    
+                    JPanel imagem = new JPanel();
+                    imagem.add(new JLabel(icon));
+                    JPanel desc = new JPanel();
+                    
+                    JLabel lblCodigo = new JLabel("Código do imóvel: ");
+                    JTextArea txtCodigo = new JTextArea(""+selecionado.getCodigo());
+                    JLabel lblDescricao = new JLabel("Descrição do imóvel: ");
+                    JTextArea txtDescricao = new JTextArea(selecionado.getDescricao());
+                    JLabel lblPreco = new JLabel("Preço do imóvel: ");
+                    JTextArea txtPreco = new JTextArea(""+selecionado.getPreco());
+                    //JLabel lblEndereco = new JLabel("Endereço do imóvel: ");
+                    //JTextArea txtEndereco = new JTextArea(selecionado.getEndereco());
+                    
+                    JButton jbProposta = new JButton("Fazer proposta");
+                    JButton jbVisita = new JButton("Agendar visita");
+
+                    desc.setLayout(new BoxLayout(desc,BoxLayout.Y_AXIS));
+                    JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+                    JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+                    JPanel p3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+                    //JPanel p4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+                    JPanel p5 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+                    p1.add(lblCodigo);
+                    p1.add(txtCodigo);
+                    p2.add(lblDescricao);
+                    p2.add(txtDescricao);
+                    p3.add(lblPreco);
+                    p3.add(txtPreco);
+                    //p4.add(lblEndereco);
+                    //p4.add(txtEndereco);
+                    p5.add(jbProposta);
+                    p5.add(jbVisita);
+                    desc.add(Box.createVerticalGlue());
+                    desc.add(p1);
+                    desc.add(p2);
+                    desc.add(p3);
+                    //this.add(p4);
+                    desc.add(p5);
+                    desc.add(Box.createVerticalGlue());
+                    
+                    telaImovel.add(imagem);
+                    telaImovel.add(desc);
+                    
+                    jbProposta.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            try{
+                                objCtrPrincipal.criarControleProposta();
+                            } catch (Exception error){}
+                        }
+                    });
                 }
-                
-            }
+            }    
         }
+        
     }
 }   
     

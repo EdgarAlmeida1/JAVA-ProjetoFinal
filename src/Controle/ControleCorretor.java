@@ -15,7 +15,7 @@ public class ControleCorretor {
         desserializaCorretor();
     }
     
-    public ArrayList getarrayComprador(){
+    public ArrayList getarrayCorretor(){
         return arrayCorretor;
     }
     

@@ -22,15 +22,23 @@ public class ControlePrincipal {
             objCtrCorretor = new ControleCorretor();
             objCtrImovel = new ControleImovel();
             objCtrVendedor = new ControleVendedor();
-            /*objCtrProposta = new ControleProposta();
-            objCtrVisita = new ControleVisita();*/
+            /*objCtrVisita = new ControleVisita();*/
         } catch (Exception error) {
-            System.out.println("Erro na abertura de arquivo");
+            System.out.println("Erro na abertura de arquivo " + error);
             System.exit(1);
         }
         objLimPrincipal = new LimitePrincipal(this);
     }
 
+    public void criarControleProposta() throws ParseException, Exception{
+        try{
+            objCtrProposta = new ControleProposta(this);
+        } catch (Exception error){
+            System.out.println("Erro na abertura de arquivo!");
+            System.exit(1);
+        }
+    }
+    
     // Fechamento dos controles com a serialização dos dados
     public void finalize() {
         try {
@@ -38,8 +46,8 @@ public class ControlePrincipal {
             objCtrCorretor.finalize();
             objCtrImovel.finalize();
             objCtrVendedor.finalize();
-            /*objCtrProposta.finalize();
-            objCtrVisita.finalize();*/
+            objCtrProposta.finalize();
+            /*objCtrVisita.finalize();*/
         } catch (Exception error) {
             System.out.println("Erro no fechamento dos arquivos");
         } finally {
