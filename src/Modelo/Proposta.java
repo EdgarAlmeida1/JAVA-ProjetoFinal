@@ -2,8 +2,7 @@
 package Modelo;
 
 import java.util.Calendar;
-import Modelo.Comprador;
-import Modelo.Corretor;
+import Modelo.*;
 import Utilitario.Util;
 import java.io.Serializable;
 

@@ -1,16 +1,10 @@
 package Controle;
 
-import Modelo.Imovel;
-import Modelo.Vendedor;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import Modelo.*;
+import java.io.*;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.*;
+
 
 public class ControleImovel {
 // Array do IMOVEL

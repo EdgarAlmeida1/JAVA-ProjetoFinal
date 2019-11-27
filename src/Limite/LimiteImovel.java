@@ -2,14 +2,11 @@
 package Limite;
 
 import Controle.*;
-import Modelo.Imovel;
-import Modelo.Vendedor;
+import Modelo.*;
 import Utilitario.Util;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
+import java.awt.event.*;
+import java.io.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;

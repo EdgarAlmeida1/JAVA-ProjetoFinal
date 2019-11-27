@@ -1,21 +1,12 @@
 package Limite;
 
 import Controle.ControlePrincipal;
-import java.awt.CardLayout;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.awt.*;
+import java.awt.event.*;
+import java.text.*;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import java.util.logging.*;
+import javax.swing.*;
 
 class LimiteCorretor extends JPanel {
 

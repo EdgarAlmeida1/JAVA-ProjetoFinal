@@ -1,17 +1,9 @@
 package Controle;
 
-import Modelo.Corretor;
-import Modelo.Imovel;
-import Modelo.Proposta;
-import Modelo.Visita;
+import Modelo.*;
 import Utilitario.Util;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.io.*;
+import java.util.*;
 
 public class ControleCorretor {
 

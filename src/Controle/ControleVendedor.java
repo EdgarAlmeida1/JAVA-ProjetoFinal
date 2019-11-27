@@ -1,13 +1,8 @@
 package Controle;
 
 import Modelo.Vendedor;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.Vector;
+import java.io.*;
+import java.util.*;
 
 public class ControleVendedor{
     //ArrayList do vendedor

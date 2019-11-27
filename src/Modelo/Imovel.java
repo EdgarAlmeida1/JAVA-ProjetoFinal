@@ -1,10 +1,8 @@
 
 package Modelo;
 
-import Modelo.Proposta;
-import Modelo.Visita;
+import Modelo.*;
 import java.util.Calendar;
-import Modelo.Vendedor;
 import java.util.ArrayList;
 import Utilitario.Util;
 import java.io.Serializable;

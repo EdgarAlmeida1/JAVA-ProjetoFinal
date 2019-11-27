@@ -1,11 +1,8 @@
 package Controle;
 
-import Modelo.Comprador;
-import Modelo.Corretor;
-import Modelo.Visita;
+import Modelo.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.*;
 
 public class ControleVisita implements Serializable {
 

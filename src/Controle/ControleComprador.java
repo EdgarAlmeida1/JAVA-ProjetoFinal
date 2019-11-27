@@ -1,12 +1,8 @@
 package Controle;
 
 import Modelo.Comprador;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 
 public class ControleComprador{
     // Array do comprador

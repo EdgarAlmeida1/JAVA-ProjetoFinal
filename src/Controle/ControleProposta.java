@@ -1,11 +1,8 @@
 package Controle;
 
-import Modelo.Comprador;
-import Modelo.Corretor;
-import Modelo.Proposta;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
+import Modelo.*;
+import java.io.*;
+import java.util.*;
 
 public class ControleProposta implements Serializable {
 //array da proposta
