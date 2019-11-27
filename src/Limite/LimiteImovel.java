@@ -15,7 +15,7 @@ import javax.swing.filechooser.FileSystemView;
 class LimiteImovel extends JPanel {
     private LimitePrincipal objLimPrincipal;
     private ControlePrincipal objCtrPrincipal;
-    File selectedFile, destination;
+    File selectedFile = null, destination;
     ArrayList<Vendedor> vendedores = null;
     
     
@@ -107,20 +107,16 @@ class LimiteImovel extends JPanel {
         jbCadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String cpfVend = (String) cmbVendedores.getSelectedItem();
                 Vendedor v = null;
-                for(Vendedor vi:vendedores){
-                    if(vi.getCpf().equals(cpfVend)){
-                        v = vi; break;
-                    }
-                }
+                if(vendedores.size() > 0) v = vendedores.get(cmbVendedores.getSelectedIndex());
+               
                 objCtrPrincipal.getObjCtrImovel().criaImovel(Integer.parseInt(txtCodigo.getText()), (String) cmbTipo.getSelectedItem(), txtDescricao.getText(), 
                         txtCodigo.getText(), Double.parseDouble(txtPreco.getText()), (Double) cmbComissao.getSelectedItem(), Calendar.getInstance(), v);
                 JOptionPane.showMessageDialog(null, "Imóvel cadastrado");
                 
                 destination = new File("images/"+txtCodigo.getText());
                 try {
-                    objCtrPrincipal.getObjCtrImovel().copiaArquivo(selectedFile, destination);
+                    if(selectedFile != null) objCtrPrincipal.getObjCtrImovel().copiaArquivo(selectedFile, destination);
                 } catch (IOException ex) {}
                 
                 JPanel cards = objLimPrincipal.cards;
