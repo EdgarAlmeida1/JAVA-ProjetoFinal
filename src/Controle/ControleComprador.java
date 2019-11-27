@@ -23,6 +23,9 @@ public class ControleComprador {
         return false;
     }
     
+    public ArrayList getComprdor(){
+        return arrayComprador; 
+    }
     
     
     public Comprador BuscaComprador(String CPF) {

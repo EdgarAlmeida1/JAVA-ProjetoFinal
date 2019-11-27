@@ -14,7 +14,11 @@ public class ControleCorretor {
     public ControleCorretor() throws Exception {
         desserializaCorretor();
     }
-
+    
+    public ArrayList getarrayComprador(){
+        return arrayCorretor;
+    }
+    
     // Buscar um corretor no array
     public Corretor BuscaCorretor(String creci) {
         Corretor result = null;
