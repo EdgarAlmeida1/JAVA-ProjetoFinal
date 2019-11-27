@@ -27,7 +27,7 @@ public class ControleCorretor {
     }
 
     // Listar todos os corretores cadastrados
-    public String TodosCorretores() throws Exception {
+    public String TodosCorretores() {
         String resultado = ("");
         for (int i = 0; i < arrayCorretor.size(); i++) {
             resultado += ("\nNome: " + arrayCorretor.get(i).getNome() + " CRECI: " + arrayCorretor.get(i).getCreci());

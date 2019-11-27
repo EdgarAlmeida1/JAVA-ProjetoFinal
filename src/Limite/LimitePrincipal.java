@@ -3,7 +3,6 @@ package Limite;
 import Controle.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.text.ParseException;
 import javax.swing.*;
 
 public class LimitePrincipal extends JFrame {
@@ -11,7 +10,7 @@ public class LimitePrincipal extends JFrame {
     private ControlePrincipal objCtrPrincipal;
     public JPanel cards;
 
-    public LimitePrincipal(ControlePrincipal objCtrPrin) throws ParseException, Exception {
+    public LimitePrincipal(ControlePrincipal objCtrPrin) {
         // Criação da JFrame
         super("IMOBILIARIA ItaHouse");
         this.setSize(900, 400);
@@ -125,13 +124,9 @@ public class LimitePrincipal extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 LimiteCorretor cadastrarCorretor = null;
-                try {
-                    cadastrarCorretor = new LimiteCorretor(objCtrPrincipal, LimitePrincipal.this, 1);
-                } catch (Exception error) {
-                    objCtrPrincipal.finalize();
-                    System.exit(1);
-                }
-
+                
+                cadastrarCorretor = new LimiteCorretor(objCtrPrincipal, LimitePrincipal.this, 1);
+            
                 cadastrarCorretor.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                 cards.add(cadastrarCorretor, "Cadastrar Corretor");
                 CardLayout cardCadComprador = (CardLayout) (cards.getLayout());
@@ -165,12 +160,8 @@ public class LimitePrincipal extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 LimiteCorretor totalcorretor = null;
-                try {
-                    totalcorretor = new LimiteCorretor(objCtrPrincipal, LimitePrincipal.this, 2);
-                } catch (Exception error) {
-                    objCtrPrincipal.finalize();
-                    System.exit(1);
-                }
+                
+                totalcorretor = new LimiteCorretor(objCtrPrincipal, LimitePrincipal.this, 2);
 
                 totalcorretor.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                 cards.add(totalcorretor, "Valor total faturado por corretor");
@@ -183,13 +174,9 @@ public class LimitePrincipal extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 LimiteCorretor visitCorretor = null;
-                try {
-                    visitCorretor = new LimiteCorretor(objCtrPrincipal, LimitePrincipal.this, 3);
-                } catch (Exception error) {
-                    objCtrPrincipal.finalize();
-                    System.exit(1);
-                }
-
+                
+                visitCorretor = new LimiteCorretor(objCtrPrincipal, LimitePrincipal.this, 3);
+               
                 visitCorretor.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                 cards.add(visitCorretor, "Visitas por corretor");
                 CardLayout visitasCorretor = (CardLayout) (cards.getLayout());

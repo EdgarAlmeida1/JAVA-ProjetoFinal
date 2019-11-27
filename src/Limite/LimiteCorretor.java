@@ -5,8 +5,12 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
 import java.util.Calendar;
-import java.util.logging.*;
+import java.util.Properties;
 import javax.swing.*;
+import org.jdatepicker.impl.DateComponentFormatter;
+import org.jdatepicker.impl.UtilCalendarModel;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.JDatePanelImpl;
 
 class LimiteCorretor extends JPanel {
 
@@ -15,7 +19,7 @@ class LimiteCorretor extends JPanel {
     private ControlePrincipal objCtrPrincipal;
 
     // Construtor
-    public LimiteCorretor(ControlePrincipal objCtrPrin, LimitePrincipal objLimPrin, int operacao) throws ParseException, Exception {
+    public LimiteCorretor(ControlePrincipal objCtrPrin, LimitePrincipal objLimPrin, int operacao){
         objLimPrincipal = objLimPrin;
         objCtrPrincipal = objCtrPrin;
 
@@ -40,7 +44,7 @@ class LimiteCorretor extends JPanel {
     }
 
     //Função que calcula o valor total que cada corretor vai receber de comissão
-    private void ValorTotalCorretor() throws ParseException, Exception {
+    private void ValorTotalCorretor(){
 
         // Botões, um para calcular o valor e outro para atualziar a lista de corretores
         JButton BtCalcular = new JButton("Calcular valor total");
@@ -52,23 +56,37 @@ class LimiteCorretor extends JPanel {
 
         // JLabels para informar o campo para o usuario digitar 
         JLabel CRECI = new JLabel("Digite o CRECI do Corretor desejado: ");
-        JLabel dataInicial = new JLabel("Digite a data inicial:");
-        JLabel dataFinal = new JLabel("Digite a data Final:");
+        JLabel dataInicial = new JLabel("Selecione a data inicial:");
+        JLabel dataFinal = new JLabel("Selecione a data final:");
 
         // JText para digitar os campos informados pelo JLabels
         JTextField textCRECI = new JTextField(15);
-        JTextField textDataInicial = new JTextField(4);
-        JTextField textDataFinal = new JTextField(4);
+       
+        UtilCalendarModel modelI = new UtilCalendarModel();
+        Properties pI = new Properties();
+        pI.put("text.today", "Today");
+        pI.put("text.month", "Month");
+        pI.put("text.year", "Year");
+        UtilCalendarModel modelF = new UtilCalendarModel();
+        Properties pF = new Properties();
+        pF.put("text.today", "Today");
+        pF.put("text.month", "Month");
+        pF.put("text.year", "Year");
+        JDatePanelImpl datePanelInicial = new JDatePanelImpl(modelI, pI);
+        JDatePanelImpl datePanelFinal = new JDatePanelImpl(modelF, pF);
         
-
+        JDatePickerImpl datePickerInicial = new JDatePickerImpl(datePanelInicial, new DateComponentFormatter());
+        JDatePickerImpl datePickerFinal = new JDatePickerImpl(datePanelFinal, new DateComponentFormatter());
+ 
+        
         // Adicionando os botões na tela
         add(area);
         add(CRECI);
         add(textCRECI);
         add(dataInicial);
-        add(textDataInicial);
+        add(datePickerInicial);
         add(dataFinal);
-        add(textDataFinal);
+        add(datePickerFinal);
         add(BtCalcular);
         add(total);
         add(BtVoltar);
@@ -80,20 +98,12 @@ class LimiteCorretor extends JPanel {
         BtCalcular.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                //de STRING para CALENDAR
-                try {
-                    SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
-
-                    Calendar inicio = Calendar.getInstance();
-                    Calendar fim = Calendar.getInstance();
-
-                    inicio.setTime(formatoData.parse(textDataInicial.getText()));
-                    fim.setTime(formatoData.parse(textDataFinal.getText()));
-
-                    total.setText(objCtrPrincipal.getObjCtrCorretor().TotalFatCorretor(objCtrPrincipal.getObjCtrImovel().getListaImovel(), objCtrPrincipal.getObjCtrCorretor().BuscaCorretor(textCRECI.getText()), inicio, fim));
-                } catch (Exception r) {
-                }
+                Calendar inicio = (Calendar) datePickerInicial.getModel().getValue();
+                Calendar fim = (Calendar) datePickerFinal.getModel().getValue();
+                
+                total.setText(objCtrPrincipal.getObjCtrCorretor().TotalFatCorretor(objCtrPrincipal.getObjCtrImovel().getListaImovel(), 
+                        objCtrPrincipal.getObjCtrCorretor().BuscaCorretor(textCRECI.getText()), 
+                        inicio, fim));
             }
         });
         BtVoltar.addActionListener(new ActionListener() {
@@ -108,7 +118,7 @@ class LimiteCorretor extends JPanel {
 
     }
 
-    private void VisitasCorretor() throws Exception {
+    private void VisitasCorretor() {
         // Botões, um para calcular o valor e outro para atualziar a lista de corretores
         JButton BtVisitas = new JButton("Mostrar Visitas");
         JButton BtVoltar = new JButton("Voltar");
@@ -119,22 +129,36 @@ class LimiteCorretor extends JPanel {
 
         // JLabels para informar o campo para o usuario digitar 
         JLabel CRECI = new JLabel("Digite o CRECI do Corretor desejado: ");
-        JLabel dataInicial = new JLabel("Digite a data inicial:");
-        JLabel dataFinal = new JLabel("Digite a data Final:");
+        JLabel dataInicial = new JLabel("Selecione a data inicial:");
+        JLabel dataFinal = new JLabel("Selecione a data final:");
 
         // JText para digitar os campos informados pelo JLabels
         JTextField textCRECI = new JTextField(15);
-        JTextField textDataInicial = new JTextField(4);
-        JTextField textDataFinal = new JTextField(4);
+        
+        UtilCalendarModel modelI = new UtilCalendarModel();
+        Properties pI = new Properties();
+        pI.put("text.today", "Today");
+        pI.put("text.month", "Month");
+        pI.put("text.year", "Year");
+        UtilCalendarModel modelF = new UtilCalendarModel();
+        Properties pF = new Properties();
+        pF.put("text.today", "Today");
+        pF.put("text.month", "Month");
+        pF.put("text.year", "Year");
+        JDatePanelImpl datePanelInicial = new JDatePanelImpl(modelI, pI);
+        JDatePanelImpl datePanelFinal = new JDatePanelImpl(modelF, pF);
+        
+        JDatePickerImpl datePickerInicial = new JDatePickerImpl(datePanelInicial, new DateComponentFormatter());
+        JDatePickerImpl datePickerFinal = new JDatePickerImpl(datePanelFinal, new DateComponentFormatter());
 
         // Adicionando os botões na tela
         add(area);
         add(CRECI);
         add(textCRECI);
         add(dataInicial);
-        add(textDataInicial);
+        add(datePickerInicial);
         add(dataFinal);
-        add(textDataFinal);
+        add(datePickerFinal);
         add(BtVisitas);
         add(total);
         add(BtVoltar);
@@ -146,20 +170,12 @@ class LimiteCorretor extends JPanel {
         BtVisitas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Calendar inicio = (Calendar) datePickerInicial.getModel().getValue();
+                Calendar fim = (Calendar) datePickerFinal.getModel().getValue();
 
-                //de STRING para CALENDAR
-                try {
-                    SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
-
-                    Calendar inicio = Calendar.getInstance();
-                    Calendar fim = Calendar.getInstance();
-
-                    inicio.setTime(formatoData.parse(textDataInicial.getText()));
-                    fim.setTime(formatoData.parse(textDataFinal.getText()));
-
-                    total.setText(objCtrPrincipal.getObjCtrCorretor().VisitasCorretor(objCtrPrincipal.getObjCtrImovel().getListaImovel(), objCtrPrincipal.getObjCtrCorretor().BuscaCorretor(textCRECI.getText()), inicio, fim));
-                } catch (Exception r) {
-                }
+                total.setText(objCtrPrincipal.getObjCtrCorretor().VisitasCorretor(objCtrPrincipal.getObjCtrImovel().getListaImovel(),
+                        objCtrPrincipal.getObjCtrCorretor().BuscaCorretor(textCRECI.getText()), inicio, fim));
+                
             }
         });
         BtVoltar.addActionListener(new ActionListener() {
