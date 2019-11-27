@@ -12,6 +12,10 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileSystemView;
+import org.jdatepicker.impl.DateComponentFormatter;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilCalendarModel;
 
 
 class LimiteImovel extends JPanel implements ListSelectionListener{
@@ -19,8 +23,10 @@ class LimiteImovel extends JPanel implements ListSelectionListener{
     private ControlePrincipal objCtrPrincipal;
     File selectedFile = null, destination;
     ArrayList<Vendedor> vendedores = null;
-    private JList listaImovel;
+    private JList listaImovel, listaImoveisSubmetidos, listaPropostas;
     private DefaultListModel lm = new DefaultListModel();
+    private DefaultListModel lm2 = new DefaultListModel();
+    private DefaultListModel lm3 = new DefaultListModel();
     
     
     public LimiteImovel(ControlePrincipal objCtrPrin, LimitePrincipal objLimPrin, int operacao) {
@@ -38,10 +44,10 @@ class LimiteImovel extends JPanel implements ListSelectionListener{
                 catalogoImoveis();
                 break;
             case 3:
-                //propostasPendentes();
+                propostasPendentes();
                 break;
             case 4:
-                //eventosPorImovel();
+                eventosPorImovel();
                 break;
             case 5:
                 //relatorioVendas();
@@ -224,15 +230,114 @@ class LimiteImovel extends JPanel implements ListSelectionListener{
     //======================================================================================================
     
     //Case 3
-    private void propostasPendentes(){
+    private void propostasPendentes() {
+        listaImoveisSubmetidos = new JList(lm2);
         
+        listaPropostas = new JList(lm3);
+        
+        this.add(listaImoveisSubmetidos);
+        this.add(listaPropostas);
+
+        listaImoveisSubmetidos.addListSelectionListener(this);
+        
+        int index = 0;
+        int quant = 0;
+        
+        lm2.clear();
+        lm3.clear();
+        for (Imovel imov : objCtrPrincipal.getObjCtrImovel().getListaImovel()) {
+            if (imov.getEstado().equals(Util.SUBMETIDA)){
+                String itemJList = new String();
+                itemJList = "Imóvel: " + imov.getCodigo() + "\n Descrição: " + imov.getDescricao();
+                int cod = imov.getCodigo();
+
+                lm2.add(index, itemJList);
+                quant++;
+            }
+        }
+        if (quant == 0) {
+            lm2.clear();
+            lm2.add(index, "Nenhum imóvel com propostas pendentes neste momento");
+        }
+
     }
     
     //======================================================================================================
     
     //Case 4
     private void eventosPorImovel(){
-        
+        JButton BtBuscar = new JButton("Buscar");
+        JButton BtVoltar = new JButton("Voltar");
+       
+        JLabel jlbCodigo = new JLabel("Digite o código do imóvel: ");
+        JLabel dataInicial = new JLabel("Selecione a data inicial:");
+        JLabel dataFinal = new JLabel("Selecione a data final:");
+
+        JTextField cod = new JTextField(20);
+       
+        UtilCalendarModel modelI = new UtilCalendarModel();
+        Properties pI = new Properties();
+        pI.put("text.today", "Today");
+        pI.put("text.month", "Month");
+        pI.put("text.year", "Year");
+        UtilCalendarModel modelF = new UtilCalendarModel();
+        Properties pF = new Properties();
+        pF.put("text.today", "Today");
+        pF.put("text.month", "Month");
+        pF.put("text.year", "Year");
+        JDatePanelImpl datePanelInicial = new JDatePanelImpl(modelI, pI);
+        JDatePanelImpl datePanelFinal = new JDatePanelImpl(modelF, pF);
+       
+        JDatePickerImpl datePickerInicial = new JDatePickerImpl(datePanelInicial, new DateComponentFormatter());
+        JDatePickerImpl datePickerFinal = new JDatePickerImpl(datePanelFinal, new DateComponentFormatter());
+
+        // Adicionando os botões na tela
+        this.add(jlbCodigo);
+        this.add(cod);
+        this.add(dataInicial);
+        this.add(datePickerInicial);
+        this.add(dataFinal);
+        this.add(datePickerFinal);
+        this.add(BtBuscar);
+        this.add(BtVoltar);
+   
+        BtBuscar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Calendar inicio = (Calendar) datePickerInicial.getModel().getValue();
+                Calendar fim = (Calendar) datePickerFinal.getModel().getValue();
+
+                ArrayList<Imovel> arrayImovel = objCtrPrincipal.getObjCtrImovel().getListaImovel();
+                String str = "";
+                
+                for(Imovel aux: arrayImovel){
+                    ArrayList<Visita> arrayVisitas = aux.getListaVisitas();
+                    for(Visita vis: arrayVisitas){
+                        if(vis.getData().after(inicio) && vis.getData().before(fim)){
+                            str += "Visita realizada no dia: " +vis.getData() + ", acompanhada pelo corretor " +vis.getCorretor() + " que acompanhou o comprador " + vis.getComprador();
+                            
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Nenhuma visita neste período");
+                        }
+                        JOptionPane.showMessageDialog(null, str);
+                    }
+                }
+               
+               
+            }
+        });
+       
+        BtVoltar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                JPanel cards = objLimPrincipal.cards;
+                CardLayout principal = (CardLayout) (cards.getLayout());
+                principal.show(cards, "Tela Principal");
+            }
+        });
+   
     }
     
     //======================================================================================================
@@ -334,6 +439,53 @@ class LimiteImovel extends JPanel implements ListSelectionListener{
                     });
                 }
             }    
+        }
+        
+        if(e.getSource() == listaImoveisSubmetidos){
+            if(e.getValueIsAdjusting() == false){
+                if(listaImoveisSubmetidos.getSelectedIndex() != -1){
+                    String index = (String) listaImovel.getSelectedValue();
+                    String x;
+                    for(int i = 8; ; i++){
+                        if(index.charAt(i) == ' '){
+                            x = index.substring(8, i-1);
+                            break;
+                        }
+                    }
+                    int codigo = Integer.parseInt(x);
+                    
+                    for(Imovel imov: objCtrPrincipal.getObjCtrImovel().getListaImovel()){
+                        if(imov.getCodigo() == codigo){
+                            System.out.println("Entrou aqui");
+                            //Cria frame para exibir propostas
+                        }
+                    }
+                    
+                                      
+                    JFrame framePropostas = new JFrame("" + codigo);
+                    framePropostas.setSize(500, 500);
+                    framePropostas.setResizable(false);
+                    framePropostas.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                    framePropostas.setLocationRelativeTo(null);
+                    framePropostas.setVisible(true);
+                    framePropostas.setLayout(new GridLayout(1,1));
+                    
+                    JPanel propostas = new JPanel();
+                    
+                    
+                    /*
+                    for(Imovel imov: objCtrPrincipal.getObjCtrImovel().getListaImovel()){
+                        ArrayList<Proposta> prop = imov.getListaPropostas();
+                        for(Proposta aux: prop){
+                            cmbPropostas.add(aux);
+                        }
+                    }*/
+                    
+                    
+                    
+                    
+                }
+            }
         }
         
     }
