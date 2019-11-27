@@ -8,15 +8,21 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileSystemView;
 
 
-class LimiteImovel extends JPanel {
+class LimiteImovel extends JPanel implements ListSelectionListener{
     private LimitePrincipal objLimPrincipal;
     private ControlePrincipal objCtrPrincipal;
     File selectedFile = null, destination;
     ArrayList<Vendedor> vendedores = null;
+    private JList listaImovel;
+    private DefaultListModel lm = new DefaultListModel();
     
     
     public LimiteImovel(ControlePrincipal objCtrPrin, LimitePrincipal objLimPrin, int operacao) {
@@ -38,6 +44,12 @@ class LimiteImovel extends JPanel {
                 break;
             case 4:
                 //eventosPorImovel();
+                break;
+            case 5:
+                //relatorioVendas();
+                break;
+            case 6:
+                //valorTotal();
                 break;
             default:
                 break;
@@ -149,29 +161,72 @@ class LimiteImovel extends JPanel {
         JLabel lblTipo = new JLabel("Insira o tipo do imóvel que deseja ver: ");
         JComboBox cmbTipo = new JComboBox(new Object[]{Util.CASA, Util.LOTE, Util.APTO, Util.SALA, Util.RURAL});
         
+        JButton jbProcurar = new JButton("Procurar");
+        JButton jbVoltar = new JButton("Voltar");
+        
         this.add(lblTipo);
         this.add(cmbTipo);
         
-        JButton jbProcurar = new JButton("Procurar");
-        JButton jbVoltar = new JButton("Voltar");
         this.add(jbProcurar);
         this.add(jbVoltar);
         
-        DefaultListModel lm = new DefaultListModel();
-        JList listaImovel = new JList(lm);
+        listaImovel = new JList(lm);
+        this.add(listaImovel);
         
-        //listaImovel.addListSelectionListener();
         
+        listaImovel.addListSelectionListener(this);
+        
+                
         jbProcurar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String itemSelecao = (String) cmbTipo.getSelectedItem();
+                int index = 0;
+                int quant = 0;
+                lm.clear();
                 for(Imovel imov: objCtrPrincipal.getObjCtrImovel().getListaImovel()){
-                    if(imov.getEstado().equals(Util.ATIVO) && imov.getTipo().equals(itemSelecao)) lm.addElement(imov.getCodigo());
+                    if(imov.getEstado().equals(Util.ATIVO) && imov.getTipo().equals(itemSelecao)){
+                        String itemJList = new String();
+                        itemJList = "Imóvel: " + imov.getCodigo() + "\n Descrição: " + imov.getDescricao();
+                        int cod = imov.getCodigo();
+                        
+                        lm.add(index, itemJList);
+                        quant++;
+                    }
+                }
+                if(quant == 0){
+                    lm.clear();
+                    lm.add(index, "Nenhum imóvel deste tipo foi cadastrado");
                 }
                 
             }
+            
         });
+        
+       
+        
+        
+        /*
+        public void valueChanged(ListSelectionEvent e) {
+        if (e.getValueIsAdjusting() == false) {
+            if (dinamicList.getSelectedIndex() != -1) {
+                int index = dinamicList.getSelectedIndex();
+                System.out.println(index);
+                listModel.remove(index);
+            }
+        }
+        
+        
+        listaImovel.addListSelctionListener(ListSelectionEvent ae){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ImageIcon icon = new ImageIcon("images/"+ .getCodigo()); // Cria o icone
+                //Exibir icone
+            }
+        }); */
+        
+        
+        
         
         jbVoltar.addActionListener(new ActionListener() {
             @Override
@@ -195,7 +250,49 @@ class LimiteImovel extends JPanel {
     //======================================================================================================
     
     //Case 4
-    private void eventorPorImovel(){
+    private void eventosPorImovel(){
         
     }
-}
+    
+    //======================================================================================================
+    
+    //Case 5:
+    private void relatorioVendas(){
+    
+    }
+    
+    //======================================================================================================
+    
+    //Case 6
+    private void valorTotal(){
+        
+    }
+    
+    //======================================================================================================
+
+    public void valueChanged(ListSelectionEvent e){
+        if(e.getValueIsAdjusting() == false){
+            if(listaImovel.getSelectedIndex() != -1){                
+                String index = (String) listaImovel.getSelectedValue();
+                String x;
+                for(int i = 8; ; i++){
+                    if(index.charAt(i) == ' '){
+                        x = index.substring(8, i-1); break;
+                    }
+                }
+                int codigo = Integer.parseInt(x);
+                
+                for(Imovel imov: objCtrPrincipal.getObjCtrImovel().getListaImovel()){
+                    if(imov.getCodigo() == codigo){
+                        ImageIcon icon = new ImageIcon("images/" + codigo) {}; // Cria o icone
+                        System.out.println("Entrou aqui");
+                        //Criar novo JFrame para exibir a imagem
+                        
+                    }
+                }
+                
+            }
+        }
+    }
+}   
+    
