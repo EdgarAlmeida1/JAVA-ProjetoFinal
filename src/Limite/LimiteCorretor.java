@@ -3,7 +3,6 @@ package Limite;
 import Controle.ControlePrincipal;
 import java.awt.*;
 import java.awt.event.*;
-import java.text.*;
 import java.util.Calendar;
 import java.util.Properties;
 import javax.swing.*;
@@ -24,9 +23,8 @@ class LimiteCorretor extends JPanel {
         objCtrPrincipal = objCtrPrin;
 
         // Configuração Layout
-        this.setSize(700, 400);
-        this.setLayout(new FlowLayout());
-
+        this.setSize(720, 480);
+       
         // Chamar as funções de acordo com a função que chama o cosntrutor
         switch (operacao) {
             case 1:
@@ -211,21 +209,35 @@ class LimiteCorretor extends JPanel {
         JButton jbCadastrar = new JButton("Cadastrar");
         JButton jbVoltar = new JButton("Voltar");
 
-        // Adicionando os botões na tela
-        add(lblCPF);
-        add(txtCPF);
-        add(lblNome);
-        add(txtNome);
-        add(lblEmail);
-        add(txtEmail);
-        add(lblFone);
-        add(txtFone);
-        add(lblCreci);
-        add(txtCreci);
-        add(lblCorretagem);
-        add(txtCorretagem);
-        add(jbCadastrar);
-        add(jbVoltar);
+        this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+        JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p5 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p6 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+ 
+        p1.add(lblCPF);
+        p1.add(txtCPF);
+        p2.add(lblNome);
+        p2.add(txtNome);
+        p3.add(lblEmail);
+        p3.add(txtEmail);
+        p4.add(lblFone);
+        p4.add(txtFone);
+        p5.add(lblCreci);
+        p5.add(txtCreci);
+        p6.add(jbCadastrar);
+        p6.add(jbVoltar);
+        this.add(Box.createVerticalGlue());
+        this.add(p1);
+        this.add(p2);
+        this.add(p3);
+        this.add(p4);
+        this.add(p5);
+        this.add(p6);
+        this.add(Box.createVerticalGlue());
+        
 
         // Definindo a ação do botão jbCadastrar, que vai cadastrar novos Corretores
         jbCadastrar.addActionListener(new ActionListener() {

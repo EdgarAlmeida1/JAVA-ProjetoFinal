@@ -14,7 +14,6 @@ class LimiteComprador extends JPanel{
         objLimPrincipal = objLimPrin;
         objCtrPrincipal = objCtrPrin;
         this.setSize(720, 480);
-        this.setLayout(new FlowLayout());
         
         switch(operacao){
             case 1:
@@ -37,33 +36,56 @@ class LimiteComprador extends JPanel{
         JTextField txtFone = new JTextField(15);
         JLabel lblContato = new JLabel("Selecione o contato preferencial: ");
         JComboBox cmbContato = new JComboBox(str);
- 
-        this.add(lblCPF);
-        this.add(txtCPF);
-        this.add(lblNome);
-        this.add(txtNome);
-        this.add(lblEmail);
-        this.add(txtEmail);
-        this.add(lblFone);
-        this.add(txtFone);
-        this.add(lblContato);
-        this.add(cmbContato);
-        
         JButton jbCadastrar = new JButton("Cadastrar");
         JButton jbVoltar = new JButton("Voltar");
-        this.add(jbCadastrar);
-        this.add(jbVoltar);
+        
+        this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+        JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p5 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p6 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+ 
+        p1.add(lblCPF);
+        p1.add(txtCPF);
+        p2.add(lblNome);
+        p2.add(txtNome);
+        p3.add(lblEmail);
+        p3.add(txtEmail);
+        p4.add(lblFone);
+        p4.add(txtFone);
+        p5.add(lblContato);
+        p5.add(cmbContato);
+        p6.add(jbCadastrar);
+        p6.add(jbVoltar);
+        this.add(Box.createVerticalGlue());
+        this.add(p1);
+        this.add(p2);
+        this.add(p3);
+        this.add(p4);
+        this.add(p5);
+        this.add(p6);
+        this.add(Box.createVerticalGlue());
+        
+        
         
         jbCadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                objCtrPrincipal.getObjCtrComprador().criaComprador(txtCPF.getText(), txtNome.getText(), txtEmail.getText(), txtFone.getText(), (String) cmbContato.getSelectedItem());
-                JOptionPane.showMessageDialog(null, "Comprador cadastrado");
-            
+                if(txtCPF.getText().isEmpty() || txtNome.getText().isEmpty() || txtEmail.getText().isEmpty() || txtFone.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
+                }
+                else{
+                    objCtrPrincipal.getObjCtrComprador().criaComprador(txtCPF.getText(), txtNome.getText(), txtEmail.getText(), txtFone.getText(), (String) cmbContato.getSelectedItem());
+                    JOptionPane.showMessageDialog(null, "Comprador cadastrado");
+
+
+                    JPanel cards = objLimPrincipal.cards;
+                    CardLayout principal = (CardLayout) (cards.getLayout());
+                    principal.show(cards, "Tela Principal");
+                }
                 
-                JPanel cards = objLimPrincipal.cards;
-                CardLayout principal = (CardLayout) (cards.getLayout());
-                principal.show(cards, "Tela Principal");
             }
         });
         jbVoltar.addActionListener(new ActionListener() {

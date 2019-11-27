@@ -2,19 +2,14 @@
 
 package Limite;
 
-import Controle.ControleImovel;
 import Controle.ControlePrincipal;
 import Modelo.Imovel;
 import Modelo.Vendedor;
-import Utilitario.Util;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import javax.swing.*;
-import javax.swing.filechooser.FileSystemView;
 
 class LimiteVendedor extends JPanel{
     private LimitePrincipal objLimPrincipal;
@@ -27,7 +22,6 @@ class LimiteVendedor extends JPanel{
         objCtrPrincipal = objCtrPrin;
         vendedores=objCtrPrincipal.getObjCtrVendedor().getArrayVendedor();
         this.setSize(720, 480);
-        this.setLayout(new FlowLayout());
         
         switch(operacao){
             case 1:
@@ -50,23 +44,38 @@ class LimiteVendedor extends JPanel{
         JLabel lblFone = new JLabel("Digite o telefone: ");
         JTextField txtFone = new JTextField(15);
         JLabel lblContato = new JLabel("Selecione o contato preferencial: ");
-        JComboBox cmbContato = new JComboBox(str);
- 
-        this.add(lblCPF);
-        this.add(txtCPF);
-        this.add(lblNome);
-        this.add(txtNome);
-        this.add(lblEmail);
-        this.add(txtEmail);
-        this.add(lblFone);
-        this.add(txtFone);
-        this.add(lblContato);
-        this.add(cmbContato);
-        
+        JComboBox cmbContato = new JComboBox(str); 
         JButton jbCadastrar = new JButton("Cadastrar");
         JButton jbVoltar = new JButton("Voltar");
-        this.add(jbCadastrar);
-        this.add(jbVoltar);
+        
+        this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+        JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p5 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p6 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+       
+        p1.add(lblCPF);
+        p1.add(txtCPF);
+        p2.add(lblNome);
+        p2.add(txtNome);
+        p3.add(lblEmail);
+        p3.add(txtEmail);
+        p4.add(lblFone);
+        p4.add(txtFone);
+        p5.add(lblContato);
+        p5.add(cmbContato);
+        p6.add(jbCadastrar);
+        p6.add(jbVoltar);
+        this.add(Box.createVerticalGlue());
+        this.add(p1);
+        this.add(p2);
+        this.add(p3);
+        this.add(p4);
+        this.add(p5);
+        this.add(p6);
+        this.add(Box.createVerticalGlue());
         
         jbCadastrar.addActionListener(new ActionListener() {
             @Override

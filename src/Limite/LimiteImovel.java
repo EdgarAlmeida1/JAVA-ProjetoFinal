@@ -8,8 +8,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -65,45 +63,53 @@ class LimiteImovel extends JPanel implements ListSelectionListener{
         
         JLabel lblCodigo = new JLabel("Digite o código do imóvel: ");
         JTextField txtCodigo = new JTextField(15);
-        
         JLabel lblTipo = new JLabel("Selecione o tipo do imóvel: ");
         JComboBox cmbTipo = new JComboBox(new String[]{Util.CASA, Util.LOTE, Util.APTO, Util.SALA, Util.RURAL});
-        
         JLabel lblDescricao = new JLabel("Digite a descrição do imóvel: ");
         JTextField txtDescricao = new JTextField(50);
-        
-        JLabel lblArquivoFoto = new JLabel("Insira uma foto do imóvel: ");
-        JButton jbUpar = new JButton("Inserir");
-        
         JLabel lblPreco = new JLabel("Digite o preço do imóvel: ");
         JTextField txtPreco = new JTextField(10);
-        
         JLabel lblComissao = new JLabel("Selecione a comissão: ");
         JComboBox cmbComissao = new JComboBox(new Double[]{0.01, 0.02, 0.03, 0.04, 0.05});
-        
         JLabel lblVendedor = new JLabel("Vendedor responsável: ");
         JComboBox cmbVendedores = new JComboBox(vends);
-        
-        this.add(lblCodigo);
-        this.add(txtCodigo);
-        this.add(lblTipo);
-        this.add(cmbTipo);
-        this.add(lblDescricao);
-        this.add(txtDescricao);
-        this.add(lblArquivoFoto);
-        this.add(jbUpar);
-        this.add(lblPreco);
-        this.add(txtPreco);
-        this.add(lblComissao);
-        this.add(cmbComissao);
-        this.add(lblVendedor);
-        this.add(cmbVendedores);
-        
       
+        JButton jbUpar = new JButton("Enviar imagem do imagem (Opcional)");
         JButton jbCadastrar = new JButton("Cadastrar");
         JButton jbVoltar = new JButton("Voltar");
-        this.add(jbCadastrar);
-        this.add(jbVoltar);
+        
+        this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+        JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p5 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p6 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p7 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+       
+        p1.add(lblCodigo);
+        p1.add(txtCodigo);
+        p2.add(lblTipo);
+        p2.add(cmbTipo);
+        p3.add(lblDescricao);
+        p3.add(txtDescricao);
+        p4.add(lblPreco);
+        p4.add(txtPreco);
+        p5.add(lblComissao);
+        p5.add(cmbComissao);
+        p6.add(jbUpar);
+        p7.add(jbCadastrar);
+        p7.add(jbVoltar);
+        this.add(Box.createVerticalGlue());
+        this.add(p1);
+        this.add(p2);
+        this.add(p3);
+        this.add(p4);
+        this.add(p5);
+        this.add(p6);
+        this.add(p7);
+        this.add(Box.createVerticalGlue());
+        
         
         jbUpar.addActionListener(new ActionListener() {
             @Override
