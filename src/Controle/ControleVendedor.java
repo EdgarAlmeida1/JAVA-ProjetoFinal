@@ -22,6 +22,7 @@ public class ControleVendedor{
         arrayVendedor.add(vendedor);
     }
     
+    
     private void desserializaVendedor() throws Exception {
         File objFile = new File("vendedores.dat");
         if (objFile.exists()) {
