@@ -48,8 +48,7 @@ class LimiteCorretor extends JPanel {
         JButton BtCalcular = new JButton("Calcular valor total");
         JButton BtVoltar = new JButton("Voltar");
 
-        // Area de exibição de texto, um para a lista e outro para o valor final
-        JTextArea area = new JTextArea();
+        // Area de exibição de texto
         JTextArea total = new JTextArea();
 
         // JLabels para informar o campo para o usuario digitar 
@@ -76,21 +75,33 @@ class LimiteCorretor extends JPanel {
         JDatePickerImpl datePickerInicial = new JDatePickerImpl(datePanelInicial, new DateComponentFormatter());
         JDatePickerImpl datePickerFinal = new JDatePickerImpl(datePanelFinal, new DateComponentFormatter());
  
+        this.setLayout(new BorderLayout());
+        JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p5 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        
         
         // Adicionando os botões na tela
-        add(area);
-        add(CRECI);
-        add(textCRECI);
-        add(dataInicial);
-        add(datePickerInicial);
-        add(dataFinal);
-        add(datePickerFinal);
-        add(BtCalcular);
-        add(total);
-        add(BtVoltar);
-
-        // Carregando a lista de corretores no sistema 
-        area.setText(objCtrPrincipal.getObjCtrCorretor().TodosCorretores());
+        p1.add(CRECI);
+        p1.add(textCRECI);
+        p2.add(dataInicial);
+        p2.add(datePickerInicial);
+        p3.add(dataFinal);
+        p3.add(datePickerFinal);
+        p4.add(BtCalcular);
+        p4.add(BtVoltar);
+        p5.add(total);
+        
+        JPanel pStart = new JPanel();
+        pStart.setLayout(new BoxLayout(pStart, BoxLayout.Y_AXIS));
+        pStart.add(p1);
+        pStart.add(p2);
+        pStart.add(p3);
+        pStart.add(p4);
+        this.add(pStart, BorderLayout.PAGE_START);
+        this.add(p5, BorderLayout.CENTER);
 
         // Definindo a ação do botão BtCalcular, que vai colher os dados e chamar a função para calcular o valor total
         BtCalcular.addActionListener(new ActionListener() {
@@ -121,8 +132,7 @@ class LimiteCorretor extends JPanel {
         JButton BtVisitas = new JButton("Mostrar Visitas");
         JButton BtVoltar = new JButton("Voltar");
 
-        // Area de exibição de texto, um para a lista e outro para o valor final
-        JTextArea area = new JTextArea();
+        // Area de exibição de texto
         JTextArea total = new JTextArea();
 
         // JLabels para informar o campo para o usuario digitar 
@@ -150,19 +160,34 @@ class LimiteCorretor extends JPanel {
         JDatePickerImpl datePickerFinal = new JDatePickerImpl(datePanelFinal, new DateComponentFormatter());
 
         // Adicionando os botões na tela
-        add(area);
-        add(CRECI);
-        add(textCRECI);
-        add(dataInicial);
-        add(datePickerInicial);
-        add(dataFinal);
-        add(datePickerFinal);
-        add(BtVisitas);
-        add(total);
-        add(BtVoltar);
+        this.setLayout(new BorderLayout());
+        JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p5 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        
+        
+        // Adicionando os botões na tela
+        p1.add(CRECI);
+        p1.add(textCRECI);
+        p2.add(dataInicial);
+        p2.add(datePickerInicial);
+        p3.add(dataFinal);
+        p3.add(datePickerFinal);
+        p4.add(BtVisitas);
+        p4.add(BtVoltar);
+        p5.add(total);
+        
+        JPanel pStart = new JPanel();
+        pStart.setLayout(new BoxLayout(pStart, BoxLayout.Y_AXIS));
+        pStart.add(p1);
+        pStart.add(p2);
+        pStart.add(p3);
+        pStart.add(p4);
+        this.add(pStart, BorderLayout.PAGE_START);
+        this.add(p5, BorderLayout.CENTER);
 
-        // Carregando a lista de corretores no sistema 
-        area.setText(objCtrPrincipal.getObjCtrCorretor().TodosCorretores());
 
         // Definindo a ação do botão BtVisitas, que vai colher os dados e chamar a função para mostrar as visitas
         BtVisitas.addActionListener(new ActionListener() {
@@ -247,13 +272,19 @@ class LimiteCorretor extends JPanel {
         jbCadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                objCtrPrincipal.getObjCtrCorretor().criaCorretor(txtCPF.getText(), txtNome.getText(),
-                        txtEmail.getText(), txtFone.getText(), txtCreci.getText(), Double.parseDouble(txtCorretagem.getText()));
-                JOptionPane.showMessageDialog(null, "Corretor cadastrado");
+                if(txtCPF.getText().isEmpty() || txtNome.getText().isEmpty() || txtEmail.getText().isEmpty() || txtFone.getText().isEmpty() 
+                        || txtCreci.getText().isEmpty() || txtCorretagem.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
+                }
+                else{
+                    objCtrPrincipal.getObjCtrCorretor().criaCorretor(txtCPF.getText(), txtNome.getText(),
+                            txtEmail.getText(), txtFone.getText(), txtCreci.getText(), Double.parseDouble(txtCorretagem.getText()));
+                    JOptionPane.showMessageDialog(null, "Corretor cadastrado");
 
-                JPanel cards = objLimPrincipal.cards;
-                CardLayout cardCadComprador = (CardLayout) (cards.getLayout());
-                cardCadComprador.show(cards, "Tela Principal");
+                    JPanel cards = objLimPrincipal.cards;
+                    CardLayout cardCadComprador = (CardLayout) (cards.getLayout());
+                    cardCadComprador.show(cards, "Tela Principal");
+                }
             }
         });
 

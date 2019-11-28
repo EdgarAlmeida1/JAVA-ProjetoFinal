@@ -9,9 +9,9 @@ public class ControlePrincipal {
     private ControleComprador objCtrComprador;
     private ControleCorretor objCtrCorretor;
     private ControleImovel objCtrImovel;
-    private ControleProposta objCtrProposta;
+    private ControleProposta objCtrProposta = null;
     private ControleVendedor objCtrVendedor;
-    private ControleVisita objCtrVisita;
+    private ControleVisita objCtrVisita = null;
 
     private LimitePrincipal objLimPrincipal;
 
@@ -22,7 +22,6 @@ public class ControlePrincipal {
             objCtrCorretor = new ControleCorretor();
             objCtrImovel = new ControleImovel();
             objCtrVendedor = new ControleVendedor();
-            /*objCtrVisita = new ControleVisita();*/
         } catch (Exception error) {
             System.out.println("Erro na abertura de arquivo " + error);
             System.exit(1);
@@ -39,6 +38,15 @@ public class ControlePrincipal {
         }
     }
     
+    public void criarControleVisita() throws ParseException, Exception{
+        try{
+            objCtrVisita = new ControleVisita(this);
+        } catch (Exception error){
+            System.out.println("Erro na abertura de arquivo!");
+            System.exit(1);
+        }
+    }
+    
     // Fechamento dos controles com a serialização dos dados
     public void finalize() {
         try {
@@ -46,8 +54,8 @@ public class ControlePrincipal {
             objCtrCorretor.finalize();
             objCtrImovel.finalize();
             objCtrVendedor.finalize();
-            objCtrProposta.finalize();
-            /*objCtrVisita.finalize();*/
+            if(objCtrProposta!=null) objCtrProposta.finalize();
+            if(objCtrVisita!=null) objCtrVisita.finalize();
         } catch (Exception error) {
             System.out.println("Erro no fechamento dos arquivos");
         } finally {

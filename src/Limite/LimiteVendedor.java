@@ -30,6 +30,8 @@ class LimiteVendedor extends JPanel{
             case 2:
                 Imoveisporvendedor();
                 break;
+            default:
+                break;
         }
     }
     
@@ -80,23 +82,28 @@ class LimiteVendedor extends JPanel{
         jbCadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                objCtrPrincipal.getObjCtrVendedor().criaVendedor(txtCPF.getText(), txtNome.getText(), txtEmail.getText(), txtFone.getText(), (String) cmbContato.getSelectedItem());
-                JOptionPane.showMessageDialog(null, "Vendedor cadastrado");
-                
-                
-                JPanel cards = objLimPrincipal.cards;
-                CardLayout principal = (CardLayout) (cards.getLayout());
-                int opcao = JOptionPane.showConfirmDialog(null, "Deseja cadastrar um imovel para este vendedor? ");
-                
-                if(opcao == JOptionPane.YES_OPTION){
-                    LimiteImovel cadastrarImovel = new LimiteImovel(objCtrPrincipal, objLimPrincipal, 1);
-                    cadastrarImovel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-                    cards.add(cadastrarImovel, "Cadastrar Imovel");
-                    principal.show(cards, "Cadastrar Imovel");
+                if(txtCPF.getText().isEmpty() || txtNome.getText().isEmpty() || txtEmail.getText().isEmpty() || txtFone.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
                 }
                 else{
-                    principal.show(cards, "Tela Principal");
-                }
+                    objCtrPrincipal.getObjCtrVendedor().criaVendedor(txtCPF.getText(), txtNome.getText(), txtEmail.getText(), txtFone.getText(), (String) cmbContato.getSelectedItem());
+                    JOptionPane.showMessageDialog(null, "Vendedor cadastrado");
+
+
+                    JPanel cards = objLimPrincipal.cards;
+                    CardLayout principal = (CardLayout) (cards.getLayout());
+                    int opcao = JOptionPane.showConfirmDialog(null, "Deseja cadastrar um imovel para este vendedor? ");
+
+                    if(opcao == JOptionPane.YES_OPTION){
+                        LimiteImovel cadastrarImovel = new LimiteImovel(objCtrPrincipal, objLimPrincipal, 1);
+                        cadastrarImovel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                        cards.add(cadastrarImovel, "Cadastrar Imovel");
+                        principal.show(cards, "Cadastrar Imovel");
+                    }
+                    else{
+                        principal.show(cards, "Tela Principal");
+                    }
+                }    
             }
         });
         jbVoltar.addActionListener(new ActionListener() {

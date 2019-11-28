@@ -23,7 +23,7 @@ public class ControleComprador {
         return false;
     }
     
-    public ArrayList getComprador(){
+    public ArrayList getarrayComprador(){
         return arrayComprador; 
     }
     

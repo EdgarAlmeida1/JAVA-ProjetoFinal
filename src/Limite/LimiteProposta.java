@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.*;
@@ -17,57 +18,85 @@ public class LimiteProposta{
 
     public LimiteProposta(ControlePrincipal objCtrPrin) {
         JFrame proposta = new JFrame("Proposta");
-        proposta.setSize(720, 480);
+        proposta.setSize(500, 280);
         proposta.setResizable(false);
         proposta.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         proposta.setLocationRelativeTo(null);
         proposta.setVisible(true);
-        proposta.setLayout(new FlowLayout());
         objControlePrincipal = objCtrPrin;
 
         // Passando o array do controle
-        ArrayList<Comprador> arraycom = objControlePrincipal.getObjCtrComprador().getComprador();
-        ArrayList<Corretor> arrayco = objControlePrincipal.getObjCtrCorretor().getarrayCorretor();
+        ArrayList<Comprador> arrayComprador = objControlePrincipal.getObjCtrComprador().getarrayComprador();
+        ArrayList<Corretor> arrayCorretor = objControlePrincipal.getObjCtrCorretor().getarrayCorretor();
+        
 
         // Tela ---------------------------------------------------------------
         // Campo para pegar texto na interface     
         JTextField textValor = new JTextField(20);
 
         // Combox corretor e comprador
-        String str1[] = new String[arrayco.size()];
-        String str2[] = new String[arraycom.size()];
+        String str1[] = new String[arrayComprador.size()];
+        String str2[] = new String[arrayCorretor.size()];
 
-        for (int i = 0; i < arraycom.size(); i++) {
-            str1[i] = ("\nNome:" + arrayco.get(i).getNome() + "- CRECI:" + arrayco.get(i).getCreci());
+        for (int i = 0; i < arrayComprador.size(); i++) {
+            str1[i] = ("\nNome:" + arrayComprador.get(i).getNome() + "- CPF:" + arrayComprador.get(i).getCpf());
         }
 
-        for (int i = 0; i < arraycom.size(); i++) {
-            str2[i] = ("\nNome:" + arraycom.get(i).getNome() + "- CPF:" + arraycom.get(i).getCpf());
+        for (int i = 0; i < arrayCorretor.size(); i++) {
+            str2[i] = ("\nNome:" + arrayCorretor.get(i).getNome() + "- CRECI:" + arrayCorretor.get(i).getCreci());
         }
 
-        JComboBox combo1 = new JComboBox(str1);
-        JComboBox combo2 = new JComboBox(str2);
+        JComboBox comboComprador = new JComboBox(str1);
+        JComboBox comboCorretor = new JComboBox(str2);
 
         //Texto definido para aparecer na interface 
-        JLabel Valor = new JLabel("Digite o nome do CPF do Corretor:");
+        JLabel Valor = new JLabel("Digite o valor proposto:");
         JLabel Comprador = new JLabel("Selecione um comprador");
         JLabel Corretor = new JLabel("Selecione um corretor");
         JButton Registrar = new JButton("Registrar Proposta");
+        JButton Cancelar = new JButton("Cancelar");
+        
+        JPanel propostaPanel = new JPanel();
+        propostaPanel.setLayout(new BoxLayout(propostaPanel,BoxLayout.Y_AXIS));
+        JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-        proposta.add(Comprador);
-        proposta.add(combo1);
-        proposta.add(Corretor);
-        proposta.add(combo2);
-        proposta.add(Valor);
-        proposta.add(Registrar);
+        p1.add(Comprador);
+        p1.add(comboComprador);
+        p2.add(Corretor);
+        p2.add(comboCorretor);
+        p3.add(Valor);
+        p3.add(textValor);
+        p4.add(Registrar);
+        p4.add(Cancelar);
+        
+        propostaPanel.add(Box.createVerticalGlue());
+        propostaPanel.add(p1);
+        propostaPanel.add(p2);
+        propostaPanel.add(p3);
+        propostaPanel.add(p4);
+        propostaPanel.add(Box.createVerticalGlue());
+        proposta.add(propostaPanel);
 
         // Atividade do botão
         Registrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
-                objCtrPrin.getObjCtrProposta().criaProposta(Calendar.getInstance(), arraycom.get(combo1.getSelectedIndex()), arrayco.get(combo2.getSelectedIndex()), Double.parseDouble(textValor.getText()));
-
+                if(textValor.getText().isEmpty() || arrayComprador.isEmpty() || arrayCorretor.isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
+                }
+                else{
+                    objCtrPrin.getObjCtrProposta().criaProposta(Calendar.getInstance(), arrayComprador.get(comboComprador.getSelectedIndex()), arrayCorretor.get(comboCorretor.getSelectedIndex()), Double.parseDouble(textValor.getText()));
+                    proposta.dispatchEvent(new WindowEvent(proposta, WindowEvent.WINDOW_CLOSING));
+                }
+            }
+        });
+        Cancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                proposta.dispatchEvent(new WindowEvent(proposta, WindowEvent.WINDOW_CLOSING));
             }
         });
     }

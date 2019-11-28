@@ -92,6 +92,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener{
         JPanel p5 = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel p6 = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel p7 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p8 = new JPanel(new FlowLayout(FlowLayout.CENTER));
        
         p1.add(lblCodigo);
         p1.add(txtCodigo);
@@ -104,8 +105,10 @@ class LimiteImovel extends JPanel implements ListSelectionListener{
         p5.add(lblComissao);
         p5.add(cmbComissao);
         p6.add(jbUpar);
-        p7.add(jbCadastrar);
-        p7.add(jbVoltar);
+        p7.add(lblVendedor);
+        p7.add(cmbVendedores);
+        p8.add(jbCadastrar);
+        p8.add(jbVoltar);
         this.add(Box.createVerticalGlue());
         this.add(p1);
         this.add(p2);
@@ -114,6 +117,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener{
         this.add(p5);
         this.add(p6);
         this.add(p7);
+        this.add(p8);
         this.add(Box.createVerticalGlue());
         
         
@@ -131,21 +135,28 @@ class LimiteImovel extends JPanel implements ListSelectionListener{
         jbCadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Vendedor v = null;
-                if(vendedores.size() > 0) v = vendedores.get(cmbVendedores.getSelectedIndex());
-               
-                objCtrPrincipal.getObjCtrImovel().criaImovel(Integer.parseInt(txtCodigo.getText()), (String) cmbTipo.getSelectedItem(), txtDescricao.getText(), 
-                        txtCodigo.getText(), Double.parseDouble(txtPreco.getText()), (Double) cmbComissao.getSelectedItem(), Calendar.getInstance(), v);
-                JOptionPane.showMessageDialog(null, "Imóvel cadastrado");
-                
-                destination = new File("images/"+txtCodigo.getText());
-                try {
-                    if(selectedFile != null) objCtrPrincipal.getObjCtrImovel().copiaArquivo(selectedFile, destination);
-                } catch (IOException ex) {}
-                
-                JPanel cards = objLimPrincipal.cards;
-                CardLayout principal = (CardLayout) (cards.getLayout());
-                principal.show(cards, "Tela Principal");
+                if(txtCodigo.getText().isEmpty() || txtDescricao.getText().isEmpty() || txtPreco.getText().isEmpty() || vendedores.isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
+                }
+                else{
+                    Vendedor v = null;
+                    if(vendedores.size() > 0) v = vendedores.get(cmbVendedores.getSelectedIndex());
+                    String nomeArq = "";
+                    if(selectedFile != null) nomeArq = txtCodigo.getText();
+
+                    objCtrPrincipal.getObjCtrImovel().criaImovel(Integer.parseInt(txtCodigo.getText()), (String) cmbTipo.getSelectedItem(), txtDescricao.getText(), 
+                            nomeArq, Double.parseDouble(txtPreco.getText()), (Double) cmbComissao.getSelectedItem(), Calendar.getInstance(), v);
+                    JOptionPane.showMessageDialog(null, "Imóvel cadastrado");
+
+                    destination = new File("images/"+txtCodigo.getText());
+                    try {
+                        if(selectedFile != null) objCtrPrincipal.getObjCtrImovel().copiaArquivo(selectedFile, destination);
+                    } catch (IOException ex) {}
+
+                    JPanel cards = objLimPrincipal.cards;
+                    CardLayout principal = (CardLayout) (cards.getLayout());
+                    principal.show(cards, "Tela Principal");
+                }        
             }
         });
         
@@ -246,7 +257,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener{
         lm2.clear();
         lm3.clear();
         for (Imovel imov : objCtrPrincipal.getObjCtrImovel().getListaImovel()) {
-            if (imov.getEstado().equals(Util.SUBMETIDA)){
+            if (imov.getEstado().equals(Util.ATIVO)){
                 String itemJList = new String();
                 itemJList = "Imóvel: " + imov.getCodigo() + "\n Descrição: " + imov.getDescricao();
                 int cod = imov.getCodigo();
@@ -372,12 +383,15 @@ class LimiteImovel extends JPanel implements ListSelectionListener{
                     ImageIcon icon = null;
                     for(Imovel imov: objCtrPrincipal.getObjCtrImovel().getListaImovel()){
                         if(imov.getCodigo() == codigo){
-                            icon = new ImageIcon("images/" + codigo) {}; // Cria o icone
+                            icon = new ImageIcon("images/" + codigo) {};
+                            Image image = icon.getImage();
+                            Image newimg = image.getScaledInstance(240, 240,  java.awt.Image.SCALE_SMOOTH);
+                            icon = new ImageIcon(newimg);
                             selecionado = imov;
                             break;
                         }
                     }
-                    JFrame telaImovel = new JFrame("" + codigo);
+                    JFrame telaImovel = new JFrame("Imovel: " + codigo);
                     telaImovel.setSize(600, 400);
                     telaImovel.setResizable(false);
                     telaImovel.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -385,8 +399,9 @@ class LimiteImovel extends JPanel implements ListSelectionListener{
                     telaImovel.setVisible(true);
                     telaImovel.setLayout(new GridLayout(1, 2));
                     
-                    JPanel imagem = new JPanel();
-                    imagem.add(new JLabel(icon));
+                    
+                    JPanel imagem = new JPanel(new BorderLayout());
+                    imagem.add(new JLabel(icon), BorderLayout.CENTER);
                     JPanel desc = new JPanel();
                     
                     JLabel lblCodigo = new JLabel("Código do imóvel: ");
@@ -440,8 +455,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener{
                 }
             }    
         }
-        
-        if(e.getSource() == listaImoveisSubmetidos){
+        else if(e.getSource() == listaImoveisSubmetidos){
             if(e.getValueIsAdjusting() == false){
                 if(listaImoveisSubmetidos.getSelectedIndex() != -1){
                     String index = (String) listaImovel.getSelectedValue();
