@@ -27,6 +27,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener{
     private DefaultListModel lm = new DefaultListModel();
     private DefaultListModel lm2 = new DefaultListModel();
     private DefaultListModel lm3 = new DefaultListModel();
+    Imovel selecionado = null;
     
     
     public LimiteImovel(ControlePrincipal objCtrPrin, LimitePrincipal objLimPrin, int operacao) {
@@ -379,7 +380,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener{
                         }
                     }
                     int codigo = Integer.parseInt(x);
-                    Imovel selecionado = null;
+                    
                     ImageIcon icon = null;
                     for(Imovel imov: objCtrPrincipal.getObjCtrImovel().getListaImovel()){
                         if(imov.getCodigo() == codigo){
@@ -448,7 +449,15 @@ class LimiteImovel extends JPanel implements ListSelectionListener{
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             try{
-                                objCtrPrincipal.criarControleProposta();
+                                objCtrPrincipal.criarControleProposta(selecionado);
+                            } catch (Exception error){}
+                        }
+                    });
+                    jbVisita.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            try{
+                                objCtrPrincipal.criarControleVisita(selecionado);
                             } catch (Exception error){}
                         }
                     });

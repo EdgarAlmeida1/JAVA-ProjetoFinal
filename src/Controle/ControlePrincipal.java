@@ -1,6 +1,7 @@
 package Controle;
 
 import Limite.*;
+import Modelo.Imovel;
 import java.text.ParseException;
 
 public class ControlePrincipal {
@@ -29,18 +30,18 @@ public class ControlePrincipal {
         objLimPrincipal = new LimitePrincipal(this);
     }
 
-    public void criarControleProposta() throws ParseException, Exception{
+    public void criarControleProposta(Imovel imov) throws ParseException, Exception{
         try{
-            objCtrProposta = new ControleProposta(this);
+            objCtrProposta = new ControleProposta(this, imov);
         } catch (Exception error){
             System.out.println("Erro na abertura de arquivo!");
             System.exit(1);
         }
     }
     
-    public void criarControleVisita() throws ParseException, Exception{
+    public void criarControleVisita(Imovel imov) throws ParseException, Exception{
         try{
-            objCtrVisita = new ControleVisita(this);
+            objCtrVisita = new ControleVisita(this, imov);
         } catch (Exception error){
             System.out.println("Erro na abertura de arquivo!");
             System.exit(1);
@@ -54,8 +55,6 @@ public class ControlePrincipal {
             objCtrCorretor.finalize();
             objCtrImovel.finalize();
             objCtrVendedor.finalize();
-            if(objCtrProposta!=null) objCtrProposta.finalize();
-            if(objCtrVisita!=null) objCtrVisita.finalize();
         } catch (Exception error) {
             System.out.println("Erro no fechamento dos arquivos");
         } finally {

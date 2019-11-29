@@ -1,6 +1,7 @@
 package Limite;
 
 import Controle.ControlePrincipal;
+import Modelo.Corretor;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Calendar;
@@ -52,12 +53,12 @@ class LimiteCorretor extends JPanel {
         JTextArea total = new JTextArea();
 
         // JLabels para informar o campo para o usuario digitar 
-        JLabel CRECI = new JLabel("Digite o CRECI do Corretor desejado: ");
+        JLabel CRECI = new JLabel("Selecione o corretor desejado: ");
         JLabel dataInicial = new JLabel("Selecione a data inicial:");
         JLabel dataFinal = new JLabel("Selecione a data final:");
 
         // JText para digitar os campos informados pelo JLabels
-        JTextField textCRECI = new JTextField(15);
+        JComboBox cmbCorretor = new JComboBox(objCtrPrincipal.getObjCtrCorretor().TodosCorretores());
        
         UtilCalendarModel modelI = new UtilCalendarModel();
         Properties pI = new Properties();
@@ -85,7 +86,7 @@ class LimiteCorretor extends JPanel {
         
         // Adicionando os botões na tela
         p1.add(CRECI);
-        p1.add(textCRECI);
+        p1.add(cmbCorretor);
         p2.add(dataInicial);
         p2.add(datePickerInicial);
         p3.add(dataFinal);
@@ -109,10 +110,10 @@ class LimiteCorretor extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Calendar inicio = (Calendar) datePickerInicial.getModel().getValue();
                 Calendar fim = (Calendar) datePickerFinal.getModel().getValue();
+                Corretor c = objCtrPrincipal.getObjCtrCorretor().getArrayCorretor().get(cmbCorretor.getSelectedIndex());
                 
                 total.setText(objCtrPrincipal.getObjCtrCorretor().TotalFatCorretor(objCtrPrincipal.getObjCtrImovel().getListaImovel(), 
-                        objCtrPrincipal.getObjCtrCorretor().BuscaCorretor(textCRECI.getText()), 
-                        inicio, fim));
+                        c, inicio, fim));
             }
         });
         BtVoltar.addActionListener(new ActionListener() {
@@ -136,12 +137,12 @@ class LimiteCorretor extends JPanel {
         JTextArea total = new JTextArea();
 
         // JLabels para informar o campo para o usuario digitar 
-        JLabel CRECI = new JLabel("Digite o CRECI do Corretor desejado: ");
+        JLabel CRECI = new JLabel("Selecione o CRECI do Corretor desejado: ");
         JLabel dataInicial = new JLabel("Selecione a data inicial:");
         JLabel dataFinal = new JLabel("Selecione a data final:");
 
         // JText para digitar os campos informados pelo JLabels
-        JTextField textCRECI = new JTextField(15);
+        JComboBox cmbCorretor = new JComboBox(objCtrPrincipal.getObjCtrCorretor().TodosCorretores());
         
         UtilCalendarModel modelI = new UtilCalendarModel();
         Properties pI = new Properties();
@@ -170,7 +171,7 @@ class LimiteCorretor extends JPanel {
         
         // Adicionando os botões na tela
         p1.add(CRECI);
-        p1.add(textCRECI);
+        p1.add(cmbCorretor);
         p2.add(dataInicial);
         p2.add(datePickerInicial);
         p3.add(dataFinal);
@@ -195,9 +196,10 @@ class LimiteCorretor extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Calendar inicio = (Calendar) datePickerInicial.getModel().getValue();
                 Calendar fim = (Calendar) datePickerFinal.getModel().getValue();
-
+                Corretor c = objCtrPrincipal.getObjCtrCorretor().getArrayCorretor().get(cmbCorretor.getSelectedIndex());
+                
                 total.setText(objCtrPrincipal.getObjCtrCorretor().VisitasCorretor(objCtrPrincipal.getObjCtrImovel().getListaImovel(),
-                        objCtrPrincipal.getObjCtrCorretor().BuscaCorretor(textCRECI.getText()), inicio, fim));
+                        c, inicio, fim));
                 
             }
         });

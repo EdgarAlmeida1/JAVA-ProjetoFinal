@@ -3,6 +3,7 @@ package Limite;
 import Controle.*;
 import Modelo.Comprador;
 import Modelo.Corretor;
+import Modelo.Imovel;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -14,9 +15,9 @@ import javax.swing.*;
 
 public class LimiteProposta{
 
-    ControlePrincipal objControlePrincipal;
+    private ControlePrincipal objControlePrincipal;
 
-    public LimiteProposta(ControlePrincipal objCtrPrin) {
+    public LimiteProposta(ControlePrincipal objCtrPrin, Imovel imov) {
         JFrame proposta = new JFrame("Proposta");
         proposta.setSize(500, 280);
         proposta.setResizable(false);
@@ -27,7 +28,7 @@ public class LimiteProposta{
 
         // Passando o array do controle
         ArrayList<Comprador> arrayComprador = objControlePrincipal.getObjCtrComprador().getarrayComprador();
-        ArrayList<Corretor> arrayCorretor = objControlePrincipal.getObjCtrCorretor().getarrayCorretor();
+        ArrayList<Corretor> arrayCorretor = objControlePrincipal.getObjCtrCorretor().getArrayCorretor();
         
 
         // Tela ---------------------------------------------------------------
@@ -39,11 +40,11 @@ public class LimiteProposta{
         String str2[] = new String[arrayCorretor.size()];
 
         for (int i = 0; i < arrayComprador.size(); i++) {
-            str1[i] = ("\nNome:" + arrayComprador.get(i).getNome() + "- CPF:" + arrayComprador.get(i).getCpf());
+            str1[i] = ("\nNome:" + arrayComprador.get(i).getNome() + " - CPF:" + arrayComprador.get(i).getCpf());
         }
 
         for (int i = 0; i < arrayCorretor.size(); i++) {
-            str2[i] = ("\nNome:" + arrayCorretor.get(i).getNome() + "- CRECI:" + arrayCorretor.get(i).getCreci());
+            str2[i] = ("\nNome:" + arrayCorretor.get(i).getNome() + " - CRECI:" + arrayCorretor.get(i).getCreci());
         }
 
         JComboBox comboComprador = new JComboBox(str1);
@@ -88,7 +89,7 @@ public class LimiteProposta{
                     JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
                 }
                 else{
-                    objCtrPrin.getObjCtrProposta().criaProposta(Calendar.getInstance(), arrayComprador.get(comboComprador.getSelectedIndex()), arrayCorretor.get(comboCorretor.getSelectedIndex()), Double.parseDouble(textValor.getText()));
+                    objCtrPrin.getObjCtrProposta().criaProposta(imov, Calendar.getInstance(), arrayComprador.get(comboComprador.getSelectedIndex()), arrayCorretor.get(comboCorretor.getSelectedIndex()), Double.parseDouble(textValor.getText()));
                     proposta.dispatchEvent(new WindowEvent(proposta, WindowEvent.WINDOW_CLOSING));
                 }
             }

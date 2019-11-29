@@ -128,13 +128,23 @@ class LimiteVendedor extends JPanel{
         JButton jbBuscar = new JButton("Buscar");
         JButton jbVoltar = new JButton("Voltar");
         JTextArea imoveis = new JTextArea("");
-        this.add(lblVendedor);
-        this.add(cmbVendedores);
-        this.add(jbBuscar);
-        this.add(jbVoltar);
-        this.add(imoveis);
         
-    
+        this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+        JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        
+        p1.add(lblVendedor);
+        p1.add(cmbVendedores);
+        p2.add(jbBuscar);
+        p2.add(jbVoltar);
+        p3.add(imoveis);
+        
+        this.add(Box.createVerticalGlue());
+        this.add(p1);
+        this.add(p2);
+        this.add(p3);
+        this.add(Box.createVerticalGlue());
         
         jbBuscar.addActionListener(new ActionListener() {
             @Override

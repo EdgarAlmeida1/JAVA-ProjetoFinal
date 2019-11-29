@@ -13,37 +13,16 @@ public class ControleVisita{
     private ArrayList<Visita> arrayvisita = new ArrayList<>();
     private ControlePrincipal objCtr;
     
-    public ControleVisita(ControlePrincipal objCtrPrincipal) throws Exception{
-        desserializaVisita();
+    public ControleVisita(ControlePrincipal objCtrPrincipal, Imovel imov) throws Exception{
         objCtr = objCtrPrincipal;
-        new LimiteVisita(objCtr);
+        new LimiteVisita(objCtr, imov);
     }
 
 // Cria nova visita
-    void criavisita(Calendar data, Comprador comprador, Corretor corretor) {
+    public void criavisita(Imovel imov, Calendar data, Comprador comprador, Corretor corretor) {
         Visita visita = new Visita(data, comprador, corretor);
-        arrayvisita.add(visita);
+        imov.agendaVisita(visita);
     }
     
-    private void desserializaVisita() throws Exception {
-        File objFile = new File("visitas.dat");
-        if (objFile.exists()) {
-            FileInputStream objFileIS = new FileInputStream("visitas.dat");
-            ObjectInputStream objIS = new ObjectInputStream(objFileIS);
-            arrayvisita = (ArrayList<Visita>) objIS.readObject();
-            objIS.close();
-        }
-    }
     
-    private void serializaVisita() throws Exception {
-        FileOutputStream objFileOS = new FileOutputStream("visitas.dat");
-        ObjectOutputStream objOS = new ObjectOutputStream(objFileOS);
-        objOS.writeObject(arrayvisita);
-        objOS.flush();
-        objOS.close();
-    }
-    
-    public void finalize() throws Exception{
-        serializaVisita();
-    }
 }
