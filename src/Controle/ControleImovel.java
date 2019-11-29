@@ -1,21 +1,21 @@
 package Controle;
 
 import Modelo.*;
+import Utilitario.Util;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.*;
-
 
 public class ControleImovel {
 // Array do IMOVEL
 
     private ArrayList<Imovel> arrayImovel = new ArrayList<>();
 
-    public ControleImovel() throws Exception{
+    public ControleImovel() throws Exception {
         desserializaImovel();
     }
-    
-    public void copiaArquivo(File a, File b) throws IOException{
+
+    public void copiaArquivo(File a, File b) throws IOException {
         Files.copy(a.toPath(), b.toPath());
     }
 
@@ -29,7 +29,7 @@ public class ControleImovel {
     public ArrayList<Imovel> getListaImovel() {
         return arrayImovel;
     }
-    
+
     // Faz a leitura do arquivo que contem os corretores
     private void desserializaImovel() throws Exception {
         File objFile = new File("imoveis.dat");
@@ -38,6 +38,34 @@ public class ControleImovel {
             ObjectInputStream objIS = new ObjectInputStream(objFileIS);
             arrayImovel = (ArrayList<Imovel>) objIS.readObject();
             objIS.close();
+        }
+    }
+    // Gera o relarotio de vendas no periodo 
+    public String relatorioVenda(Calendar inicio, Calendar fim) {
+        String vendas = ("");
+        boolean status = false;
+        for (int i = 0; i < arrayImovel.size(); i++) {
+            if (arrayImovel.get(i).getEstado() == Util.VENDIDO) {
+                status = true;
+                vendas += ("\nCodigo:" + arrayImovel.get(i).getCodigo() + "\n"
+                        + "Tipo:" + arrayImovel.get(i).getTipo() + "\n"
+                        + "Preço pedido pelo imovel:" + arrayImovel.get(i).getPreco() + "\n"
+                        + "Descrição:" + arrayImovel.get(i).getDescricao() + "\n"
+                        + "Vendedor:" + arrayImovel.get(i).getVendedor() + "\n"
+                        + "Valor de comissão:" + 0.6 * arrayImovel.get(i).getComissao() + "\n"
+                        + "Preço final do imovel:" + arrayImovel.get(i).getPreco());
+
+            }
+        }
+        if (arrayImovel.size() == 0) {
+            return ("Não existe imoveis cadastrados no sistema");
+        } else {
+            if (status == true) {
+                return vendas;
+            } else {
+                return ("Não teve vendas de imoveis nesse periodo!");
+            }
+
         }
     }
 
