@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
+import static java.util.Calendar.*;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -271,14 +272,14 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
     //======================================================================================================
     //Case 4
     private void eventosPorImovel() {
-        JButton BtBuscar = new JButton("Buscar");
-        JButton BtVoltar = new JButton("Voltar");
+        JButton btnBuscar = new JButton("Buscar");
+        JButton btnVoltar = new JButton("Voltar");
 
-        JLabel jlbCodigo = new JLabel("Digite o código do imóvel: ");
-        JLabel dataInicial = new JLabel("Selecione a data inicial:");
-        JLabel dataFinal = new JLabel("Selecione a data final:");
+        JLabel lblCodigo = new JLabel("Digite o código do imóvel: ");
+        JLabel lblDataInicial = new JLabel("Selecione a data inicial:");
+        JLabel lblDataFinal = new JLabel("Selecione a data final:");
 
-        JTextField cod = new JTextField(20);
+        JTextField txtCodigo = new JTextField(20);
 
         UtilCalendarModel modelI = new UtilCalendarModel();
         Properties pI = new Properties();
@@ -295,18 +296,37 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
 
         JDatePickerImpl datePickerInicial = new JDatePickerImpl(datePanelInicial, new DateComponentFormatter());
         JDatePickerImpl datePickerFinal = new JDatePickerImpl(datePanelFinal, new DateComponentFormatter());
+        
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p5 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p6 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p7 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p8 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        
+        p1.add(lblCodigo);
+        p1.add(txtCodigo);
+        
+        p2.add(lblDataInicial);
+        p2.add(datePickerInicial);
+        
+        p3.add(lblDataFinal);
+        p3.add(datePickerFinal);
+        
+        p4.add(btnBuscar);
+        p4.add(btnVoltar);
+        
+        this.add(Box.createVerticalGlue());
+        this.add(p1);
+        this.add(p2);
+        this.add(p3);
+        this.add(p4);
+        this.add(Box.createVerticalGlue());
 
-        // Adicionando os botões na tela
-        this.add(jlbCodigo);
-        this.add(cod);
-        this.add(dataInicial);
-        this.add(datePickerInicial);
-        this.add(dataFinal);
-        this.add(datePickerFinal);
-        this.add(BtBuscar);
-        this.add(BtVoltar);
-
-        BtBuscar.addActionListener(new ActionListener() {
+        btnBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Calendar inicio = (Calendar) datePickerInicial.getModel().getValue();
@@ -316,22 +336,41 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
                 String str = "";
 
                 for (Imovel aux : arrayImovel) {
+                    str = "";
                     ArrayList<Visita> arrayVisitas = aux.getListaVisitas();
                     for (Visita vis : arrayVisitas) {
                         if (vis.getData().after(inicio) && vis.getData().before(fim)) {
-                            str += "Visita realizada no dia: " + vis.getData() + ", acompanhada pelo corretor " + vis.getCorretor() + " que acompanhou o comprador " + vis.getComprador();
+                            if(str != "") str += "\n\n";
+                            str += "Visita realizada no dia: " + vis.getData().get(DAY_OF_MONTH) + "/" + vis.getData().get(MONTH) + "/" + vis.getData().get(YEAR)
+                                    + "\nCorretor responsável: " + vis.getCorretor().getNome() + " | Creci: " + vis.getCorretor().getCreci()
+                                    + "\nComprador visitante: " + vis.getComprador().getNome() + " | CPF: " + vis.getComprador().getCpf();
 
                         } else {
-                            JOptionPane.showMessageDialog(null, "Nenhuma visita neste período");
+                            str += "\nNenhuma visita neste período";
                         }
-                        JOptionPane.showMessageDialog(null, str);
+                    }
+                    
+                    ArrayList<Proposta> arrayPropostas = aux.getListaPropostas();
+                    for(Proposta prop: arrayPropostas){
+                        if(prop.getData().after(inicio) && prop.getData().before(fim)){
+                            if(str != "") str += "\n\n";
+                            str += "Proposta efetuada pelo comprador: " + prop.getComprador().getNome() + " | CPF: " + prop.getComprador().getCpf()
+                                 + " no dia: " + prop.getData().get(DAY_OF_MONTH) + "/" + prop.getData().get(MONTH) + "/" + prop.getData().get(YEAR)
+                                 + "\nMediação do corretor: " + prop.getCorretor().getNome() + " | Creci: " + prop.getCorretor().getCreci()
+                                 + "\nA proposta tem valor: R$" + prop.getValor()
+                                 + "\nSeu estado é: " + prop.getEstado();
+                        }
+                        else{
+                            str += "\nNenhuma proposta neste período";
+                        }
                     }
                 }
+                JOptionPane.showMessageDialog(null, str);
 
             }
         });
 
-        BtVoltar.addActionListener(new ActionListener() {
+        btnVoltar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -484,10 +523,13 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
 
                     JLabel lblCodigo = new JLabel("Código do imóvel: ");
                     JTextArea txtCodigo = new JTextArea("" + selecionado.getCodigo());
+                    txtCodigo.setEditable(false);
                     JLabel lblDescricao = new JLabel("Descrição do imóvel: ");
                     JTextArea txtDescricao = new JTextArea(selecionado.getDescricao());
+                    txtDescricao.setEditable(false);
                     JLabel lblPreco = new JLabel("Preço do imóvel: ");
                     JTextArea txtPreco = new JTextArea("" + selecionado.getPreco());
+                    txtPreco.setEditable(false);
                     //JLabel lblEndereco = new JLabel("Endereço do imóvel: ");
                     //JTextArea txtEndereco = new JTextArea(selecionado.getEndereco());
 

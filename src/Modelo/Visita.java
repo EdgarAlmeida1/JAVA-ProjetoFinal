@@ -21,6 +21,7 @@ public class Visita implements Serializable{
 
     public Calendar getData() {
         return data;
+        
     }
 
     public Comprador getComprador() {
