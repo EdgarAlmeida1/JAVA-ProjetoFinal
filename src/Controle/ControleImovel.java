@@ -5,6 +5,7 @@ import Utilitario.Util;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.*;
+import javax.swing.JOptionPane;
 
 public class ControleImovel {
 // Array do IMOVEL
@@ -40,6 +41,7 @@ public class ControleImovel {
             objIS.close();
         }
     }
+
     // Gera o relarotio de vendas no periodo 
     public String relatorioVenda(Calendar inicio, Calendar fim) {
         String vendas = ("");
@@ -67,6 +69,26 @@ public class ControleImovel {
             }
 
         }
+    }
+
+    //Listagem de imoveis por vendedor
+    public String RelatorioImoveisVendedor(String CPF) {
+        String result = ("Imoveis associado ao CPF:  "+CPF);
+        if (arrayImovel.size() == 0) {
+            JOptionPane.showMessageDialog(null, "Não existe vendedor cadastrado no sistema, cadastre um vendedor!");
+            return ("");
+        } else {
+            for (int i = 0; i < arrayImovel.size(); i++) {
+                if (arrayImovel.get(i).getVendedor().getCpf().equals(CPF)) {
+                    result += ("\n\nCodigo do imovel: " + getListaImovel().get(i).getCodigo() + ":\nTipo do imovel:" + getListaImovel().get(i).getTipo() + "\nEstado do imovel: " + getListaImovel().get(i).getEstado() + "\nDescrição do imovel: " + getListaImovel().get(i).getDescricao());
+                } else {
+                    JOptionPane.showMessageDialog(null, "Vendedor não encontrado. Por favor, digite um vendedor com CPF valido!");
+                    return ("");
+                }
+            }
+        }
+
+        return result;
     }
 
     // Salva os corretores no arquivo 

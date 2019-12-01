@@ -92,8 +92,8 @@ public class LimitePrincipal extends JFrame {
 
         JMenu relatorioMenu = new JMenu("Relatorios");
         menu.add(relatorioMenu);
-        JMenuItem valorTotal = new JMenuItem("Valor total faturado");
-        JMenuItem relatorioVendas = new JMenuItem("Vendas");
+        JMenuItem valorTotal = new JMenuItem("Listagem de imovel por vendedor");
+        JMenuItem relatorioVendas = new JMenuItem("Vendas por periodo");
         relatorioMenu.add(valorTotal);
         relatorioMenu.add(relatorioVendas);
         //***************************************************************************************************

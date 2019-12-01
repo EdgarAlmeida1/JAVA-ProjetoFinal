@@ -52,7 +52,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
                 relatorioVendas();
                 break;
             case 6:
-                //valorTotal();
+                valorTotal();
                 break;
             default:
                 break;
@@ -346,7 +346,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
     //======================================================================================================
     //Case 5:
     private void relatorioVendas() {
-        
+
         // Caledario
         UtilCalendarModel modelI = new UtilCalendarModel();
         Properties pI = new Properties();
@@ -361,7 +361,6 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
         JDatePanelImpl datePanelInicial = new JDatePanelImpl(modelI, pI);
         JDatePanelImpl datePanelFinal = new JDatePanelImpl(modelF, pF);
 
-        
         JDatePickerImpl datePickerInicial = new JDatePickerImpl(datePanelInicial, new DateComponentFormatter());
         JDatePickerImpl datePickerFinal = new JDatePickerImpl(datePanelFinal, new DateComponentFormatter());
 
@@ -381,7 +380,6 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
         JPanel p4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel p5 = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel p6 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-       
 
         p1.add(texDataIni);
         p2.add(datePickerInicial);
@@ -410,6 +408,38 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
     //======================================================================================================
     //Case 6
     private void valorTotal() {
+
+        JLabel textCPF = new JLabel("Digite o CPF do Vendedor:");
+        JTextField CPF = new JTextField(30);
+        
+
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+        JButton GerarListagem = new JButton("Gerar Listagem");
+        JTextArea area2 = new JTextArea("");
+
+        p1.add(textCPF);
+        p2.add(CPF);
+        p3.add(GerarListagem);
+        p4.add(area2);
+
+        this.add(Box.createVerticalGlue());
+        this.add(p1);
+        this.add(p2);
+        this.add(p3);
+        this.add(p4);
+        this.add(Box.createVerticalGlue());
+
+        GerarListagem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                area2.setText(objCtrPrincipal.getObjCtrImovel().RelatorioImoveisVendedor(CPF.getText()));
+            }
+        });
 
     }
 
