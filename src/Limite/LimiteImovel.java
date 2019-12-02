@@ -238,6 +238,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
     //======================================================================================================
     //Case 3
     private void propostasPendentes() {
+        //Exibe as propostas pendentes
         listaImoveisSubmetidos = new JList(lm2);
 
         listaPropostas = new JList(lm3);
