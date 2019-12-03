@@ -13,7 +13,7 @@ public class LimitePrincipal extends JFrame {
     public LimitePrincipal(ControlePrincipal objCtrPrin) {
         // Criação da JFrame
         super("IMOBILIARIA ItaHouse");
-        this.setSize(720, 480);
+        this.setSize(800, 480);
         this.setResizable(false);
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.setLocationRelativeTo(null);
@@ -120,21 +120,21 @@ public class LimitePrincipal extends JFrame {
                 cardCadComprador.show(cards, "Cadastrar Comprador");
             }
         });
-        
+
         cadCorretor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 LimiteCorretor cadastrarCorretor = null;
-                
+
                 cadastrarCorretor = new LimiteCorretor(objCtrPrincipal, LimitePrincipal.this, 1);
-            
+
                 cadastrarCorretor.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                 cards.add(cadastrarCorretor, "Cadastrar Corretor");
                 CardLayout cardCadComprador = (CardLayout) (cards.getLayout());
                 cardCadComprador.show(cards, "Cadastrar Corretor");
             }
         });
-        
+
         cadVendedor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -145,7 +145,7 @@ public class LimitePrincipal extends JFrame {
                 cardCadVendedor.show(cards, "Cadastrar Corretor");
             }
         });
-        
+
         cadImovel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -156,12 +156,12 @@ public class LimitePrincipal extends JFrame {
                 cardCadImovel.show(cards, "Cadastrar Imovel");
             }
         });
-        
+
         valorTotalCorretor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 LimiteCorretor totalcorretor = null;
-                
+
                 totalcorretor = new LimiteCorretor(objCtrPrincipal, LimitePrincipal.this, 2);
 
                 totalcorretor.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -175,16 +175,16 @@ public class LimitePrincipal extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 LimiteCorretor visitCorretor = null;
-                
+
                 visitCorretor = new LimiteCorretor(objCtrPrincipal, LimitePrincipal.this, 3);
-               
+
                 visitCorretor.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                 cards.add(visitCorretor, "Visitas por corretor");
                 CardLayout visitasCorretor = (CardLayout) (cards.getLayout());
                 visitasCorretor.show(cards, "Visitas por corretor");
             }
         });
-        
+
         imoveisVendedor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -195,7 +195,7 @@ public class LimitePrincipal extends JFrame {
                 cardImoveisVendedor.show(cards, "Imoveis Vendedor");
             }
         });
-        
+
         catImovel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -206,7 +206,7 @@ public class LimitePrincipal extends JFrame {
                 cardCatalogo.show(cards, "Imoveis Catalogo");
             }
         });
-        
+
         propImovel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -217,7 +217,7 @@ public class LimitePrincipal extends JFrame {
                 cardPropostas.show(cards, "Imoveis Propostas");
             }
         });
-        
+
         eventosImovel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -228,7 +228,7 @@ public class LimitePrincipal extends JFrame {
                 cardEventos.show(cards, "Imoveis Eventos");
             }
         });
-        
+
         relatorioVendas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -239,7 +239,7 @@ public class LimitePrincipal extends JFrame {
                 cardVendasImovel.show(cards, "Imoveis Vendas");
             }
         });
-        
+
         valorTotal.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -54,8 +54,8 @@ class LimiteCorretor extends JPanel {
 
         // JLabels para informar o campo para o usuario digitar 
         JLabel CRECI = new JLabel("Selecione o corretor desejado: ");
-        JLabel dataInicial = new JLabel("Selecione a data inicial:");
-        JLabel dataFinal = new JLabel("Selecione a data final:");
+        JLabel dataInicial = new JLabel("Selecione a data inicial: ");
+        JLabel dataFinal = new JLabel("Selecione a data final: ");
 
         // JText para digitar os campos informados pelo JLabels
         JComboBox cmbCorretor = new JComboBox(objCtrPrincipal.getObjCtrCorretor().TodosCorretores());
@@ -130,7 +130,7 @@ class LimiteCorretor extends JPanel {
 
     private void VisitasCorretor() {
         // Botões, um para calcular o valor e outro para atualziar a lista de corretores
-        JButton BtVisitas = new JButton("Mostrar Visitas");
+        JButton BtVisitas = new JButton("Listar Visitas");
         JButton BtVoltar = new JButton("Voltar");
 
         // Area de exibição de texto
@@ -138,8 +138,8 @@ class LimiteCorretor extends JPanel {
 
         // JLabels para informar o campo para o usuario digitar 
         JLabel CRECI = new JLabel("Selecione o CRECI do Corretor desejado: ");
-        JLabel dataInicial = new JLabel("Selecione a data inicial:");
-        JLabel dataFinal = new JLabel("Selecione a data final:");
+        JLabel dataInicial = new JLabel("Selecione a data inicial: ");
+        JLabel dataFinal = new JLabel("Selecione a data final: ");
 
         // JText para digitar os campos informados pelo JLabels
         JComboBox cmbCorretor = new JComboBox(objCtrPrincipal.getObjCtrCorretor().TodosCorretores());
@@ -198,8 +198,14 @@ class LimiteCorretor extends JPanel {
                 Calendar fim = (Calendar) datePickerFinal.getModel().getValue();
                 Corretor c = objCtrPrincipal.getObjCtrCorretor().getArrayCorretor().get(cmbCorretor.getSelectedIndex());
                 
-                total.setText(objCtrPrincipal.getObjCtrCorretor().VisitasCorretor(objCtrPrincipal.getObjCtrImovel().getListaImovel(),
-                        c, inicio, fim));
+                String listagem = objCtrPrincipal.getObjCtrCorretor().VisitasCorretor
+                                (objCtrPrincipal.getObjCtrImovel().getListaImovel(),c, inicio, fim);
+                if(listagem.equals("")){
+                    JOptionPane.showMessageDialog(null, "Não há visitas no periodo selecionado.");
+                }else{
+                    total.setText(listagem);
+                }
+                
                 
             }
         });
@@ -221,11 +227,11 @@ class LimiteCorretor extends JPanel {
         // JLabels para informar o significado do campo JText 
         JLabel lblCPF = new JLabel("Digite o CPF: ");
         JTextField txtCPF = new JTextField(15);
-        JLabel lblNome = new JLabel("Digite o nome: ");
+        JLabel lblNome = new JLabel("Digite o Nome: ");
         JTextField txtNome = new JTextField(15);
-        JLabel lblEmail = new JLabel("Digite o email: ");
+        JLabel lblEmail = new JLabel("Digite o Email: ");
         JTextField txtEmail = new JTextField(15);
-        JLabel lblFone = new JLabel("Digite o telefone: ");
+        JLabel lblFone = new JLabel("Digite o Telefone: ");
         JTextField txtFone = new JTextField(15);
         JLabel lblCreci = new JLabel("Digite o CRECI: ");
         JTextField txtCreci = new JTextField(15);
@@ -281,7 +287,7 @@ class LimiteCorretor extends JPanel {
                 else{
                     objCtrPrincipal.getObjCtrCorretor().criaCorretor(txtCPF.getText(), txtNome.getText(),
                             txtEmail.getText(), txtFone.getText(), txtCreci.getText(), Double.parseDouble(txtCorretagem.getText()));
-                    JOptionPane.showMessageDialog(null, "Corretor cadastrado");
+                    JOptionPane.showMessageDialog(null, "Corretor cadastrado!");
 
                     JPanel cards = objLimPrincipal.cards;
                     CardLayout cardCadComprador = (CardLayout) (cards.getLayout());

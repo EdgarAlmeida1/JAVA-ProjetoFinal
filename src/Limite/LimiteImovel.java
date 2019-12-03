@@ -22,18 +22,18 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
     private LimitePrincipal objLimPrincipal;
     private ControlePrincipal objCtrPrincipal;
     File selectedFile = null, destination;
-    ArrayList<Vendedor> vendedores = null;
+    ArrayList<Vendedor> vendedores = new ArrayList<>();
     private JList listaImovel, listaImoveisSubmetidos, listaPropostas;
     private DefaultListModel lm = new DefaultListModel();
     private DefaultListModel lm2 = new DefaultListModel();
     private DefaultListModel lm3 = new DefaultListModel();
     Imovel selecionado = null;
-
+    
     public LimiteImovel(ControlePrincipal objCtrPrin, LimitePrincipal objLimPrin, int operacao) {
         objLimPrincipal = objLimPrin;
         objCtrPrincipal = objCtrPrin;
         vendedores = objCtrPrincipal.getObjCtrVendedor().getArrayVendedor();
-        this.setSize(720, 480);
+        this.setSize(800, 480);
         this.setLayout(new FlowLayout());
 
         switch (operacao) {
@@ -149,7 +149,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
 
                     objCtrPrincipal.getObjCtrImovel().criaImovel(Integer.parseInt(txtCodigo.getText()), (String) cmbTipo.getSelectedItem(), txtDescricao.getText(),
                             nomeArq, Double.parseDouble(txtPreco.getText()), (Double) cmbComissao.getSelectedItem(), Calendar.getInstance(), v);
-                    JOptionPane.showMessageDialog(null, "Imóvel cadastrado");
+                    JOptionPane.showMessageDialog(null, "Imóvel cadastrado!");
 
                     destination = new File("images/" + txtCodigo.getText());
                     try {
@@ -297,7 +297,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
 
         JDatePickerImpl datePickerInicial = new JDatePickerImpl(datePanelInicial, new DateComponentFormatter());
         JDatePickerImpl datePickerFinal = new JDatePickerImpl(datePanelFinal, new DateComponentFormatter());
-        
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -307,19 +307,19 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
         JPanel p6 = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel p7 = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel p8 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        
+
         p1.add(lblCodigo);
         p1.add(txtCodigo);
-        
+
         p2.add(lblDataInicial);
         p2.add(datePickerInicial);
-        
+
         p3.add(lblDataFinal);
         p3.add(datePickerFinal);
-        
+
         p4.add(btnBuscar);
         p4.add(btnVoltar);
-        
+
         this.add(Box.createVerticalGlue());
         this.add(p1);
         this.add(p2);
@@ -341,7 +341,9 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
                     ArrayList<Visita> arrayVisitas = aux.getListaVisitas();
                     for (Visita vis : arrayVisitas) {
                         if (vis.getData().after(inicio) && vis.getData().before(fim)) {
-                            if(str != "") str += "\n\n";
+                            if (str != "") {
+                                str += "\n\n";
+                            }
                             str += "Visita realizada no dia: " + vis.getData().get(DAY_OF_MONTH) + "/" + vis.getData().get(MONTH) + "/" + vis.getData().get(YEAR)
                                     + "\nCorretor responsável: " + vis.getCorretor().getNome() + " | Creci: " + vis.getCorretor().getCreci()
                                     + "\nComprador visitante: " + vis.getComprador().getNome() + " | CPF: " + vis.getComprador().getCpf();
@@ -350,18 +352,19 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
                             str += "\nNenhuma visita neste período";
                         }
                     }
-                    
+
                     ArrayList<Proposta> arrayPropostas = aux.getListaPropostas();
-                    for(Proposta prop: arrayPropostas){
-                        if(prop.getData().after(inicio) && prop.getData().before(fim)){
-                            if(str != "") str += "\n\n";
+                    for (Proposta prop : arrayPropostas) {
+                        if (prop.getData().after(inicio) && prop.getData().before(fim)) {
+                            if (str != "") {
+                                str += "\n\n";
+                            }
                             str += "Proposta efetuada pelo comprador: " + prop.getComprador().getNome() + " | CPF: " + prop.getComprador().getCpf()
-                                 + " no dia: " + prop.getData().get(DAY_OF_MONTH) + "/" + prop.getData().get(MONTH) + "/" + prop.getData().get(YEAR)
-                                 + "\nMediação do corretor: " + prop.getCorretor().getNome() + " | Creci: " + prop.getCorretor().getCreci()
-                                 + "\nA proposta tem valor: R$" + prop.getValor()
-                                 + "\nSeu estado é: " + prop.getEstado();
-                        }
-                        else{
+                                    + " no dia: " + prop.getData().get(DAY_OF_MONTH) + "/" + prop.getData().get(MONTH) + "/" + prop.getData().get(YEAR)
+                                    + "\nMediação do corretor: " + prop.getCorretor().getNome() + " | Creci: " + prop.getCorretor().getCreci()
+                                    + "\nA proposta tem valor: R$" + prop.getValor()
+                                    + "\nSeu estado é: " + prop.getEstado();
+                        } else {
                             str += "\nNenhuma proposta neste período";
                         }
                     }
@@ -451,7 +454,6 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
 
         JLabel textCPF = new JLabel("Digite o CPF do Vendedor:");
         JTextField CPF = new JTextField(30);
-        
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));

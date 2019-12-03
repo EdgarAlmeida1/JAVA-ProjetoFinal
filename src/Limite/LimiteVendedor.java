@@ -37,15 +37,15 @@ class LimiteVendedor extends JPanel{
     
     private void cadastrarVendedor(){
         String str[] = {"Indiferente", "Telefone", "Email", "Mensagem Whatsapp"};
-        JLabel lblCPF = new JLabel("Digite o CPF: ");
-        JTextField txtCPF = new JTextField(15);
-        JLabel lblNome = new JLabel("Digite o nome: ");
-        JTextField txtNome = new JTextField(15);
-        JLabel lblEmail = new JLabel("Digite o email: ");
-        JTextField txtEmail = new JTextField(15);
-        JLabel lblFone = new JLabel("Digite o telefone: ");
-        JTextField txtFone = new JTextField(15);
-        JLabel lblContato = new JLabel("Selecione o contato preferencial: ");
+        JLabel lblCPF = new JLabel("Digite o CPF : ");
+        JTextField txtCPF = new JTextField(20);
+        JLabel lblNome = new JLabel("Digite o nome :");
+        JTextField txtNome = new JTextField(20);
+        JLabel lblEmail = new JLabel("Digite o email :");
+        JTextField txtEmail = new JTextField(20);
+        JLabel lblFone = new JLabel("Digite o telefone :");
+        JTextField txtFone = new JTextField(19);
+        JLabel lblContato = new JLabel("Selecione o contato preferencial :");
         JComboBox cmbContato = new JComboBox(str); 
         JButton jbCadastrar = new JButton("Cadastrar");
         JButton jbVoltar = new JButton("Voltar");
