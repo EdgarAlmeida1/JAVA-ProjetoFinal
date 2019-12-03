@@ -369,7 +369,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
                         }
                     }
                 }
-                JOptionPane.showMessageDialog(null, str);
+                JOptionPane.showMessageDialog(null,"Nenhuma proposta neste período.");
 
             }
         });
