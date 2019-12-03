@@ -47,8 +47,8 @@ public class ControleCorretor {
             ArrayList<Proposta> proposta = imovel.get(i).getListaPropostas();
             for (int j = 0; j < proposta.size(); j++) {
                 if (proposta.get(j).getCorretor().getCreci().equals(corretor.getCreci())
-                        && proposta.get(j).getEstado() == Util.VENDIDO && proposta.get(j).getData().after(inicio) && proposta.get(j).getData().before(fim)) {
-                    total += ((corretor.getPercCorretagem() / 100) * imovel.get(i).getComissao());
+                        && proposta.get(j).getEstado().equals(Util.ACEITA) && proposta.get(j).getData().after(inicio) && proposta.get(j).getData().before(fim)) {
+                    total += corretor.getPercCorretagem() * (proposta.get(j).getValor()* imovel.get(i).getComissao());
                 }
             }
         }

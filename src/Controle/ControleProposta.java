@@ -5,7 +5,6 @@ import Modelo.Comprador;
 import Modelo.Corretor;
 import Limite.LimiteProposta;
 import Modelo.Imovel;
-import java.io.*;
 import java.util.*;
 
 public class ControleProposta{

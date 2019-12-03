@@ -75,9 +75,7 @@ public class LimitePrincipal extends JFrame {
         JMenu vendedorMenu = new JMenu("Vendedor");
         menu.add(vendedorMenu);
         JMenuItem cadVendedor = new JMenuItem("Cadastrar");
-        JMenuItem imoveisVendedor = new JMenuItem("Imoveis por vendedor");
         vendedorMenu.add(cadVendedor);
-        vendedorMenu.add(imoveisVendedor);
 
         JMenu imovelMenu = new JMenu("Imovel");
         menu.add(imovelMenu);
@@ -185,16 +183,6 @@ public class LimitePrincipal extends JFrame {
             }
         });
 
-        imoveisVendedor.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                LimiteVendedor imoveisVendedor = new LimiteVendedor(objCtrPrincipal, LimitePrincipal.this, 2);
-                imoveisVendedor.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-                cards.add(imoveisVendedor, "Imoveis Vendedor");
-                CardLayout cardImoveisVendedor = (CardLayout) (cards.getLayout());
-                cardImoveisVendedor.show(cards, "Imoveis Vendedor");
-            }
-        });
 
         catImovel.addActionListener(new ActionListener() {
             @Override

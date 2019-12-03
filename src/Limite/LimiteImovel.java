@@ -238,36 +238,21 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
     //======================================================================================================
     //Case 3
     private void propostasPendentes() {
-        //Exibe as propostas pendentes
-        listaImoveisSubmetidos = new JList(lm2);
-
-        listaPropostas = new JList(lm3);
-
-        this.add(listaImoveisSubmetidos);
-        this.add(listaPropostas);
-
-        listaImoveisSubmetidos.addListSelectionListener(this);
-
-        int index = 0;
-        int quant = 0;
-
-        lm2.clear();
-        lm3.clear();
-        for (Imovel imov : objCtrPrincipal.getObjCtrImovel().getListaImovel()) {
-            if (imov.getEstado().equals(Util.ATIVO)) {
-                String itemJList = new String();
-                itemJList = "Imóvel: " + imov.getCodigo() + "\n Descrição: " + imov.getDescricao();
-                int cod = imov.getCodigo();
-
-                lm2.add(index, itemJList);
-                quant++;
-            }
+        ArrayList <Imovel> listaImoveis = objCtrPrincipal.getObjCtrImovel().getListaImovel();
+        String imoveis[] =  new String[listaImoveis.size()];
+        for (int i=0;i<listaImoveis.size();i++) {
+            imoveis[i] = listaImoveis.get(i).getCodigo() + " - Número de propostas pendentes: " + listaImoveis.get(i).getListaPropostas().size();
         }
-        if (quant == 0) {
-            lm2.clear();
-            lm2.add(index, "Nenhum imóvel com propostas pendentes neste momento");
-        }
-
+        listaPropostas = new JList(imoveis);
+        listaPropostas.addListSelectionListener(this);
+        
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        
+        p1.add(listaPropostas);
+        this.add(Box.createVerticalGlue());
+        this.add(p1);
+        this.add(Box.createVerticalGlue());
     }
 
     //======================================================================================================
@@ -335,41 +320,45 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
 
                 ArrayList<Imovel> arrayImovel = objCtrPrincipal.getObjCtrImovel().getListaImovel();
                 String str = "";
+                
 
                 for (Imovel aux : arrayImovel) {
-                    str = "";
-                    ArrayList<Visita> arrayVisitas = aux.getListaVisitas();
-                    for (Visita vis : arrayVisitas) {
-                        if (vis.getData().after(inicio) && vis.getData().before(fim)) {
-                            if (str != "") {
-                                str += "\n\n";
-                            }
-                            str += "Visita realizada no dia: " + vis.getData().get(DAY_OF_MONTH) + "/" + vis.getData().get(MONTH) + "/" + vis.getData().get(YEAR)
-                                    + "\nCorretor responsável: " + vis.getCorretor().getNome() + " | Creci: " + vis.getCorretor().getCreci()
-                                    + "\nComprador visitante: " + vis.getComprador().getNome() + " | CPF: " + vis.getComprador().getCpf();
+                    if(aux.getCodigo() == Integer.parseInt(txtCodigo.getText())){
+                    
+                        ArrayList<Visita> arrayVisitas = aux.getListaVisitas();
+                        for (Visita vis : arrayVisitas) {
+                            if (vis.getData().after(inicio) && vis.getData().before(fim)) {
+                                if (str != "") {
+                                    str += "\n\n";
+                                }
+                                str += "Visita realizada no dia: " + vis.getData().get(DAY_OF_MONTH) + "/" + vis.getData().get(MONTH) + "/" + vis.getData().get(YEAR)
+                                        + "\nCorretor responsável: " + vis.getCorretor().getNome() + " | Creci: " + vis.getCorretor().getCreci()
+                                        + "\nComprador visitante: " + vis.getComprador().getNome() + " | CPF: " + vis.getComprador().getCpf();
 
-                        } else {
-                            str += "\nNenhuma visita neste período";
+                            } else {
+                                str += "\nNenhuma visita neste período";
+                            }
                         }
-                    }
 
-                    ArrayList<Proposta> arrayPropostas = aux.getListaPropostas();
-                    for (Proposta prop : arrayPropostas) {
-                        if (prop.getData().after(inicio) && prop.getData().before(fim)) {
-                            if (str != "") {
-                                str += "\n\n";
+                        ArrayList<Proposta> arrayPropostas = aux.getListaPropostas();
+                        for (Proposta prop : arrayPropostas) {
+                            if (prop.getData().after(inicio) && prop.getData().before(fim)) {
+                                if (str != "") {
+                                    str += "\n\n";
+                                }
+                                str += "Proposta efetuada pelo comprador: " + prop.getComprador().getNome() + " | CPF: " + prop.getComprador().getCpf()
+                                        + " no dia: " + prop.getData().get(DAY_OF_MONTH) + "/" + prop.getData().get(MONTH) + "/" + prop.getData().get(YEAR)
+                                        + "\nMediação do corretor: " + prop.getCorretor().getNome() + " | Creci: " + prop.getCorretor().getCreci()
+                                        + "\nA proposta tem valor: R$" + prop.getValor()
+                                        + "\nSeu estado é: " + prop.getEstado();
+                            } else {
+                                str += "\nNenhuma proposta neste período";
                             }
-                            str += "Proposta efetuada pelo comprador: " + prop.getComprador().getNome() + " | CPF: " + prop.getComprador().getCpf()
-                                    + " no dia: " + prop.getData().get(DAY_OF_MONTH) + "/" + prop.getData().get(MONTH) + "/" + prop.getData().get(YEAR)
-                                    + "\nMediação do corretor: " + prop.getCorretor().getNome() + " | Creci: " + prop.getCorretor().getCreci()
-                                    + "\nA proposta tem valor: R$" + prop.getValor()
-                                    + "\nSeu estado é: " + prop.getEstado();
-                        } else {
-                            str += "\nNenhuma proposta neste período";
                         }
                     }
                 }
-                JOptionPane.showMessageDialog(null,"Nenhuma proposta neste período.");
+                if(str.equals("")) JOptionPane.showMessageDialog(null,"Nenhum evento neste período ou imóvel não encontrado!");
+                else JOptionPane.showMessageDialog(null, str);
 
             }
         });
@@ -538,6 +527,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
 
                     JButton jbProposta = new JButton("Fazer proposta");
                     JButton jbVisita = new JButton("Agendar visita");
+                   
 
                     desc.setLayout(new BoxLayout(desc, BoxLayout.Y_AXIS));
                     JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -556,6 +546,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
                     //p4.add(txtEndereco);
                     p5.add(jbProposta);
                     p5.add(jbVisita);
+      
                     desc.add(Box.createVerticalGlue());
                     desc.add(p1);
                     desc.add(p2);
@@ -587,43 +578,73 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
                     });
                 }
             }
-        } else if (e.getSource() == listaImoveisSubmetidos) {
+        
+        } else if(e.getSource() == listaPropostas){
             if (e.getValueIsAdjusting() == false) {
-                if (listaImoveisSubmetidos.getSelectedIndex() != -1) {
-                    String index = (String) listaImovel.getSelectedValue();
-                    String x;
-                    for (int i = 8;; i++) {
-                        if (index.charAt(i) == ' ') {
-                            x = index.substring(8, i - 1);
-                            break;
-                        }
+                Imovel imov = objCtrPrincipal.getObjCtrImovel().getListaImovel().get(listaPropostas.getSelectedIndex());
+                String str[] = new String[imov.getListaPropostas().size()];
+
+                if(imov.getListaPropostas().size()==0){
+                    JOptionPane.showMessageDialog(null, "O imovel não possui propostas pendentes!");
+                }
+                else{
+                    JFrame telaproposta = new JFrame("Lista de Propostas");
+                    telaproposta.setSize(600, 400);
+                    telaproposta.setResizable(false);
+                    telaproposta.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                    telaproposta.setLocationRelativeTo(null);
+                    telaproposta.setVisible(true);
+                    
+                    for(int i=0;i<imov.getListaPropostas().size();i++){
+                        if(imov.getListaPropostas().get(i).getEstado().equals(Util.SUBMETIDA)) str[i] = imov.getListaPropostas().get(i).getComprador().getNome() + " ofereceu " + imov.getListaPropostas().get(i).getValor();
                     }
-                    int codigo = Integer.parseInt(x);
+                    JButton jbAceitar = new JButton("Aceitar proposta");
+                    JButton jbRecusar = new JButton("Recusar proposta");
+                    JButton jbVoltar = new JButton("Voltar");
+                    JList jl = new JList(str);
+                    
+                    JPanel jpPrincipal = new JPanel();
 
-                    for (Imovel imov : objCtrPrincipal.getObjCtrImovel().getListaImovel()) {
-                        if (imov.getCodigo() == codigo) {
-                            System.out.println("Entrou aqui");
-                            //Cria frame para exibir propostas
+                    jpPrincipal.setLayout(new BoxLayout(jpPrincipal, BoxLayout.Y_AXIS));
+                    JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+                    JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+                    
+                    p1.add(jl);
+                    p2.add(jbAceitar);
+                    p2.add(jbRecusar);
+                    p2.add(jbVoltar);
+                    
+                    jpPrincipal.add(Box.createVerticalGlue());
+                    jpPrincipal.add(p1);
+                    jpPrincipal.add(p2);
+                    jpPrincipal.add(Box.createVerticalGlue());
+                    
+                    telaproposta.add(jpPrincipal);
+                    
+                    jbAceitar.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            if (jl.getSelectedIndex() != -1){ 
+                                imov.aceitaProposta(imov.getListaPropostas().get(jl.getSelectedIndex()));
+                                telaproposta.dispatchEvent(new WindowEvent(telaproposta, WindowEvent.WINDOW_CLOSING));
+                            }
                         }
-                    }
-
-                    JFrame framePropostas = new JFrame("" + codigo);
-                    framePropostas.setSize(500, 500);
-                    framePropostas.setResizable(false);
-                    framePropostas.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-                    framePropostas.setLocationRelativeTo(null);
-                    framePropostas.setVisible(true);
-                    framePropostas.setLayout(new GridLayout(1, 1));
-
-                    JPanel propostas = new JPanel();
-
-                    /*
-                    for(Imovel imov: objCtrPrincipal.getObjCtrImovel().getListaImovel()){
-                        ArrayList<Proposta> prop = imov.getListaPropostas();
-                        for(Proposta aux: prop){
-                            cmbPropostas.add(aux);
+                    });
+                    jbRecusar.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            if (jl.getSelectedIndex() != -1){ 
+                                imov.getListaPropostas().get(jl.getSelectedIndex()).setEstado(Util.REJEITADA);
+                                telaproposta.dispatchEvent(new WindowEvent(telaproposta, WindowEvent.WINDOW_CLOSING));
+                            }
                         }
-                    }*/
+                    });
+                    jbVoltar.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            telaproposta.dispatchEvent(new WindowEvent(telaproposta, WindowEvent.WINDOW_CLOSING));
+                        }
+                    });
                 }
             }
         }

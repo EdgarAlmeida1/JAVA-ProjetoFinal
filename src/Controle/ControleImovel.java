@@ -47,15 +47,22 @@ public class ControleImovel {
         String vendas = ("");
         boolean status = false;
         for (int i = 0; i < arrayImovel.size(); i++) {
-            if (arrayImovel.get(i).getEstado() == Util.VENDIDO) {
+            if (arrayImovel.get(i).getEstado().equals(Util.VENDIDO)) {
                 status = true;
+                ArrayList <Proposta> listaProp = arrayImovel.get(i).getListaPropostas();
+                double value = arrayImovel.get(i).getPreco();
+                for(Proposta p: listaProp){
+                    if(p.getEstado().equals(Util.ACEITA)){
+                        value = p.getValor();
+                        break;
+                    }
+                }
                 vendas += ("\nCodigo:" + arrayImovel.get(i).getCodigo() + "\n"
                         + "Tipo:" + arrayImovel.get(i).getTipo() + "\n"
-                        + "Preço pedido pelo imovel:" + arrayImovel.get(i).getPreco() + "\n"
+                        + "Preço:" + value + "\n"
                         + "Descrição:" + arrayImovel.get(i).getDescricao() + "\n"
-                        + "Vendedor:" + arrayImovel.get(i).getVendedor() + "\n"
-                        + "Valor de comissão:" + 0.6 * arrayImovel.get(i).getComissao() + "\n"
-                        + "Preço final do imovel:" + arrayImovel.get(i).getPreco());
+                        + "Vendedor:" + arrayImovel.get(i).getVendedor().getNome() + "\n"
+                        + "Valor de comissão:" + arrayImovel.get(i).getComissao()*value + "\n");
 
             }
         }

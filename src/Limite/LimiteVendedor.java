@@ -27,9 +27,6 @@ class LimiteVendedor extends JPanel{
             case 1:
                 cadastrarVendedor();
                 break;
-            case 2:
-                Imoveisporvendedor();
-                break;
             default:
                 break;
         }
@@ -117,65 +114,5 @@ class LimiteVendedor extends JPanel{
         });
     }
     
-    
-    private void Imoveisporvendedor(){
-        String vends[] = new String[vendedores.size()];
-        for(int i=0;i<vendedores.size();i++) vends[i] = vendedores.get(i).getCpf();
-
-        JLabel lblVendedor = new JLabel("Cpf do Vendedor: ");
-        JComboBox cmbVendedores = new JComboBox(vends);        
-      
-        JButton jbBuscar = new JButton("Buscar");
-        JButton jbVoltar = new JButton("Voltar");
-        JTextArea imoveis = new JTextArea("");
-        
-        this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
-        JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JPanel p3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        
-        p1.add(lblVendedor);
-        p1.add(cmbVendedores);
-        p2.add(jbBuscar);
-        p2.add(jbVoltar);
-        p3.add(imoveis);
-        
-        this.add(Box.createVerticalGlue());
-        this.add(p1);
-        this.add(p2);
-        this.add(p3);
-        this.add(Box.createVerticalGlue());
-        
-        jbBuscar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                Vendedor VendedorSelec = vendedores.get(cmbVendedores.getSelectedIndex());
-                ArrayList<Imovel> imov = objCtrPrincipal.getObjCtrImovel().getListaImovel();
-                
-                for(Imovel aux: imov){
-                    if(aux.getVendedor().getCpf().equals(VendedorSelec.getCpf())){
-                        imoveis.setText(imoveis.getText()+aux.getCodigo()+" - "+aux.getEstado()+"\n");
-                        
-                    }
-                }
-                
-                
-                
-            }
-        });
-        
-        jbVoltar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                
-                JPanel cards = objLimPrincipal.cards;
-                CardLayout cardCadComprador = (CardLayout) (cards.getLayout());
-                cardCadComprador.show(cards, "Tela Principal");
-            }
-        });
-       
-    }
 
 }
