@@ -240,14 +240,8 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
     private void propostasPendentes() {
         ArrayList<Imovel> listaImoveis = objCtrPrincipal.getObjCtrImovel().getListaImovel();
         String imoveis[] = new String[listaImoveis.size()];
-        int pendentes = 0;
         for (int i = 0; i < listaImoveis.size(); i++) {
-            for (int j = 0; j < listaImoveis.get(i).getListaPropostas().size(); j++) {
-                if (listaImoveis.get(i).getListaPropostas().get(j).getEstado().equals(Util.SUBMETIDA)) {
-                    pendentes++;
-                }
-            }
-            imoveis[i] = "Imóvel: " + listaImoveis.get(i).getCodigo() + " || Número de propostas pendentes:  " + pendentes;
+            imoveis[i] = "Imóvel: " + listaImoveis.get(i).getCodigo() + " || Status: " + listaImoveis.get(i).getEstado() + " || Propostas: " + listaImoveis.get(i).getListaPropostas().size();
         }
         listaPropostas = new JList(imoveis);
         listaPropostas.addListSelectionListener(this);
