@@ -49,20 +49,20 @@ public class ControleImovel {
         for (int i = 0; i < arrayImovel.size(); i++) {
             if (arrayImovel.get(i).getEstado().equals(Util.VENDIDO)) {
                 status = true;
-                ArrayList <Proposta> listaProp = arrayImovel.get(i).getListaPropostas();
+                ArrayList<Proposta> listaProp = arrayImovel.get(i).getListaPropostas();
                 double value = arrayImovel.get(i).getPreco();
-                for(Proposta p: listaProp){
-                    if(p.getEstado().equals(Util.ACEITA)){
+                for (Proposta p : listaProp) {
+                    if (p.getEstado().equals(Util.ACEITA)) {
                         value = p.getValor();
                         break;
                     }
                 }
-                vendas += ("\nCodigo:" + arrayImovel.get(i).getCodigo() + "\n"
-                        + "Tipo:" + arrayImovel.get(i).getTipo() + "\n"
-                        + "Preço:" + value + "\n"
-                        + "Descrição:" + arrayImovel.get(i).getDescricao() + "\n"
-                        + "Vendedor:" + arrayImovel.get(i).getVendedor().getNome() + "\n"
-                        + "Valor de comissão:" + arrayImovel.get(i).getComissao()*value + "\n");
+                vendas += ("\nCodigo: " + arrayImovel.get(i).getCodigo() + "\n"
+                        + "Tipo: " + arrayImovel.get(i).getTipo() + "\n"
+                        + "Preço R$:" + value + "\n"
+                        + "Descrição: " + arrayImovel.get(i).getDescricao() + "\n"
+                        + "Vendedor: " + arrayImovel.get(i).getVendedor().getNome() + "\n"
+                        + "Valor de comissão: " + arrayImovel.get(i).getComissao() * value + "\n");
 
             }
         }
@@ -80,21 +80,20 @@ public class ControleImovel {
 
     //Listagem de imoveis por vendedor
     public String RelatorioImoveisVendedor(String CPF) {
-        String result = ("Imoveis associado ao CPF:  "+CPF);
+        String result = ("");
         if (arrayImovel.size() == 0) {
-            JOptionPane.showMessageDialog(null, "Não existe vendedor cadastrado no sistema, cadastre um vendedor!");
+            JOptionPane.showMessageDialog(null, "Não há vendedores cadastrados no sistema!");
             return ("");
         } else {
             for (int i = 0; i < arrayImovel.size(); i++) {
                 if (arrayImovel.get(i).getVendedor().getCpf().equals(CPF)) {
-                    result += ("\n\nCodigo do imovel: " + getListaImovel().get(i).getCodigo() + ":\nTipo do imovel:" + getListaImovel().get(i).getTipo() + "\nEstado do imovel: " + getListaImovel().get(i).getEstado() + "\nDescrição do imovel: " + getListaImovel().get(i).getDescricao());
-                } else {
-                    JOptionPane.showMessageDialog(null, "Vendedor não encontrado. Por favor, digite um vendedor com CPF valido!");
-                    return ("");
+                    result += ("\n\nCodigo do imovel: " + getListaImovel().get(i).getCodigo() + "\nCPF do vendedor: " + CPF + "\nTipo do imovel:" + getListaImovel().get(i).getTipo() + "\nEstado do imovel: " + getListaImovel().get(i).getEstado() + "\nValor do imovel R$: " + arrayImovel.get(i).getPreco() + "\nDescrição do imovel: " + getListaImovel().get(i).getDescricao());
                 }
             }
+            if (result.equals("")) {
+                result = ("CPF não encontrado. Digite um CPF referente a um vendedor.");
+            }
         }
-
         return result;
     }
 

@@ -28,7 +28,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
     private DefaultListModel lm2 = new DefaultListModel();
     private DefaultListModel lm3 = new DefaultListModel();
     Imovel selecionado = null;
-    
+
     public LimiteImovel(ControlePrincipal objCtrPrin, LimitePrincipal objLimPrin, int operacao) {
         objLimPrincipal = objLimPrin;
         objCtrPrincipal = objCtrPrin;
@@ -238,20 +238,31 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
     //======================================================================================================
     //Case 3
     private void propostasPendentes() {
-        ArrayList <Imovel> listaImoveis = objCtrPrincipal.getObjCtrImovel().getListaImovel();
-        String imoveis[] =  new String[listaImoveis.size()];
-        for (int i=0;i<listaImoveis.size();i++) {
-            imoveis[i] = listaImoveis.get(i).getCodigo() + " - Número de propostas pendentes: " + listaImoveis.get(i).getListaPropostas().size();
+        ArrayList<Imovel> listaImoveis = objCtrPrincipal.getObjCtrImovel().getListaImovel();
+        String imoveis[] = new String[listaImoveis.size()];
+        int pendentes = 0;
+        for (int i = 0; i < listaImoveis.size(); i++) {
+            for (int j = 0; j < listaImoveis.get(i).getListaPropostas().size(); j++) {
+                if (listaImoveis.get(i).getListaPropostas().get(j).getEstado().equals(Util.SUBMETIDA)) {
+                    pendentes++;
+                }
+            }
+            imoveis[i] = "Imóvel: " + listaImoveis.get(i).getCodigo() + " || Número de propostas pendentes:  " + pendentes;
         }
         listaPropostas = new JList(imoveis);
         listaPropostas.addListSelectionListener(this);
-        
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        
-        p1.add(listaPropostas);
+        JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+        JLabel lblMsg = new JLabel("Clique em um dos imóveis da lista abaixo para verificar as propostas pendentes: ");
+
+        p1.add(lblMsg);
+        p2.add(listaPropostas);
         this.add(Box.createVerticalGlue());
         this.add(p1);
+        this.add(p2);
         this.add(Box.createVerticalGlue());
     }
 
@@ -320,11 +331,10 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
 
                 ArrayList<Imovel> arrayImovel = objCtrPrincipal.getObjCtrImovel().getListaImovel();
                 String str = "";
-                
 
                 for (Imovel aux : arrayImovel) {
-                    if(aux.getCodigo() == Integer.parseInt(txtCodigo.getText())){
-                    
+                    if (aux.getCodigo() == Integer.parseInt(txtCodigo.getText())) {
+
                         ArrayList<Visita> arrayVisitas = aux.getListaVisitas();
                         for (Visita vis : arrayVisitas) {
                             if (vis.getData().after(inicio) && vis.getData().before(fim)) {
@@ -357,8 +367,11 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
                         }
                     }
                 }
-                if(str.equals("")) JOptionPane.showMessageDialog(null,"Nenhum evento neste período ou imóvel não encontrado!");
-                else JOptionPane.showMessageDialog(null, str);
+                if (str.equals("")) {
+                    JOptionPane.showMessageDialog(null, "Nenhum evento neste período ou imóvel não encontrado!");
+                } else {
+                    JOptionPane.showMessageDialog(null, str);
+                }
 
             }
         });
@@ -441,7 +454,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
     //Case 6
     private void valorTotal() {
 
-        JLabel textCPF = new JLabel("Digite o CPF do Vendedor:");
+        JLabel textCPF = new JLabel("Digite o CPF do Vendedor: ");
         JTextField CPF = new JTextField(30);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -527,7 +540,6 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
 
                     JButton jbProposta = new JButton("Fazer proposta");
                     JButton jbVisita = new JButton("Agendar visita");
-                   
 
                     desc.setLayout(new BoxLayout(desc, BoxLayout.Y_AXIS));
                     JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -546,7 +558,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
                     //p4.add(txtEndereco);
                     p5.add(jbProposta);
                     p5.add(jbVisita);
-      
+
                     desc.add(Box.createVerticalGlue());
                     desc.add(p1);
                     desc.add(p2);
@@ -578,53 +590,59 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
                     });
                 }
             }
-        
-        } else if(e.getSource() == listaPropostas){
+
+        } else if (e.getSource() == listaPropostas) {
             if (e.getValueIsAdjusting() == false) {
                 Imovel imov = objCtrPrincipal.getObjCtrImovel().getListaImovel().get(listaPropostas.getSelectedIndex());
                 String str[] = new String[imov.getListaPropostas().size()];
 
-                if(imov.getListaPropostas().size()==0){
-                    JOptionPane.showMessageDialog(null, "O imovel não possui propostas pendentes!");
-                }
-                else{
+                if (imov.getListaPropostas().size() == 0) {
+                    JOptionPane.showMessageDialog(null, "O imovel não possui propostas pendentes.");
+                } else {
                     JFrame telaproposta = new JFrame("Lista de Propostas");
                     telaproposta.setSize(600, 400);
                     telaproposta.setResizable(false);
                     telaproposta.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
                     telaproposta.setLocationRelativeTo(null);
                     telaproposta.setVisible(true);
-                    
-                    for(int i=0;i<imov.getListaPropostas().size();i++){
-                        if(imov.getListaPropostas().get(i).getEstado().equals(Util.SUBMETIDA)) str[i] = imov.getListaPropostas().get(i).getComprador().getNome() + " ofereceu " + imov.getListaPropostas().get(i).getValor();
+
+                    for (int i = 0; i < imov.getListaPropostas().size(); i++) {
+                        if (imov.getListaPropostas().get(i).getEstado().equals(Util.SUBMETIDA)) {
+                            str[i] = "O comprador: " + imov.getListaPropostas().get(i).getComprador().getNome() + " ofereceu R$" + imov.getListaPropostas().get(i).getValor();
+                        }
                     }
                     JButton jbAceitar = new JButton("Aceitar proposta");
                     JButton jbRecusar = new JButton("Recusar proposta");
                     JButton jbVoltar = new JButton("Voltar");
                     JList jl = new JList(str);
-                    
+
                     JPanel jpPrincipal = new JPanel();
 
                     jpPrincipal.setLayout(new BoxLayout(jpPrincipal, BoxLayout.Y_AXIS));
+                    JPanel p0 = new JPanel(new FlowLayout(FlowLayout.CENTER));
                     JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
                     JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-                    
+
+                    JLabel lblMsg = new JLabel("Selecione uma das propostas da lista abaixo para aceitá-la ou rejeitá-la");
+
+                    p0.add(lblMsg);
                     p1.add(jl);
                     p2.add(jbAceitar);
                     p2.add(jbRecusar);
                     p2.add(jbVoltar);
-                    
+
                     jpPrincipal.add(Box.createVerticalGlue());
+                    jpPrincipal.add(p0);
                     jpPrincipal.add(p1);
                     jpPrincipal.add(p2);
                     jpPrincipal.add(Box.createVerticalGlue());
-                    
+
                     telaproposta.add(jpPrincipal);
-                    
+
                     jbAceitar.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            if (jl.getSelectedIndex() != -1){ 
+                            if (jl.getSelectedIndex() != -1) {
                                 imov.aceitaProposta(imov.getListaPropostas().get(jl.getSelectedIndex()));
                                 telaproposta.dispatchEvent(new WindowEvent(telaproposta, WindowEvent.WINDOW_CLOSING));
                             }
@@ -633,7 +651,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
                     jbRecusar.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            if (jl.getSelectedIndex() != -1){ 
+                            if (jl.getSelectedIndex() != -1) {
                                 imov.getListaPropostas().get(jl.getSelectedIndex()).setEstado(Util.REJEITADA);
                                 telaproposta.dispatchEvent(new WindowEvent(telaproposta, WindowEvent.WINDOW_CLOSING));
                             }
