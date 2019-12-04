@@ -51,11 +51,17 @@ public class ControleImovel {
                 status = true;
                 ArrayList<Proposta> listaProp = arrayImovel.get(i).getListaPropostas();
                 double value = arrayImovel.get(i).getPreco();
+                boolean ok = false;
                 for (Proposta p : listaProp) {
                     if (p.getEstado().equals(Util.ACEITA)) {
                         value = p.getValor();
+                        if(p.getData().after(inicio) && p.getData().before(fim)) ok = true;
                         break;
                     }
+                }
+                if(!ok){
+                    status = false;
+                    continue;
                 }
                 vendas += ("\nCodigo: " + arrayImovel.get(i).getCodigo() + "\n"
                         + "Tipo: " + arrayImovel.get(i).getTipo() + "\n"
@@ -77,6 +83,23 @@ public class ControleImovel {
             }
 
         }
+    }
+    
+    public String TotalFat(ArrayList<Imovel> imovel, Calendar inicio, Calendar fim) {
+        double totalCorretores = 0;
+        double totalImobiliaria = 0;
+        
+        for (int i = 0; i < imovel.size(); i++) {
+            ArrayList<Proposta> proposta = imovel.get(i).getListaPropostas();
+            for (int j = 0; j < proposta.size(); j++) {
+                if (proposta.get(j).getEstado().equals(Util.ACEITA) && proposta.get(j).getData().after(inicio) && proposta.get(j).getData().before(fim)) {
+                    double aux = proposta.get(j).getCorretor().getPercCorretagem() * (proposta.get(j).getValor()* imovel.get(i).getComissao());
+                    totalImobiliaria += (proposta.get(j).getValor()* imovel.get(i).getComissao()) - aux;
+                    totalCorretores += aux;
+                }
+            }
+        }
+        return ("Total passado para a imobiliaria: R$" + totalImobiliaria + "\nTotal passado aos corretores: R$: " + totalCorretores);
     }
     
     // Recebe uma Calendar e retorna uma String com a data 

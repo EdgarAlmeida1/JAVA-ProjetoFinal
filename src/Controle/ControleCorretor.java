@@ -54,7 +54,7 @@ public class ControleCorretor {
         }
         return ("Nome do corretor: " + corretor.getNome() + " - Valor total R$: " + total);
     }
-
+    
     // Função para mostrar as visitas por corretor no periodo
     public String VisitasCorretor(ArrayList<Imovel> imovel, Corretor corretor, Calendar inicio, Calendar fim) {
         String resultado = "";

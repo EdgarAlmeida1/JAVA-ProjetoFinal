@@ -53,8 +53,10 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
                 relatorioVendas();
                 break;
             case 6:
-                valorTotal();
+                imoveisVendedor();
                 break;
+            case 7:
+                totalFaturado();
             default:
                 break;
         }
@@ -403,8 +405,6 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
         JDatePickerImpl datePickerInicial = new JDatePickerImpl(datePanelInicial, new DateComponentFormatter());
         JDatePickerImpl datePickerFinal = new JDatePickerImpl(datePanelFinal, new DateComponentFormatter());
 
-        Calendar inicio = (Calendar) datePickerInicial.getModel().getValue();
-        Calendar fim = (Calendar) datePickerFinal.getModel().getValue();
 
         // JLabel
         JLabel texDataIni = new JLabel("Escolha a data inicial:");
@@ -439,6 +439,8 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
         Gerar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Calendar inicio = (Calendar) datePickerInicial.getModel().getValue();
+                Calendar fim = (Calendar) datePickerFinal.getModel().getValue();
                 area.setText(objCtrPrincipal.getObjCtrImovel().relatorioVenda(inicio, fim));
             }
         });
@@ -446,7 +448,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
 
     //======================================================================================================
     //Case 6
-    private void valorTotal() {
+    private void imoveisVendedor() {
 
         JLabel textCPF = new JLabel("Digite o CPF do Vendedor: ");
         JTextField CPF = new JTextField(30);
@@ -476,6 +478,83 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 area2.setText(objCtrPrincipal.getObjCtrImovel().RelatorioImoveisVendedor(CPF.getText()));
+            }
+        });
+
+    }
+    
+    //======================================================================================================
+    //Case 7
+    private void totalFaturado() {
+// Botões, um para calcular o valor e outro para atualziar a lista de corretores
+        JButton BtCalcular = new JButton("Calcular valor total");
+        JButton BtVoltar = new JButton("Voltar");
+
+        // Area de exibição de texto
+        JTextArea total = new JTextArea();
+
+        // JLabels para informar o campo para o usuario digitar 
+        JLabel dataInicial = new JLabel("Selecione a data inicial: ");
+        JLabel dataFinal = new JLabel("Selecione a data final: ");
+
+       
+        UtilCalendarModel modelI = new UtilCalendarModel();
+        Properties pI = new Properties();
+        pI.put("text.today", "Today");
+        pI.put("text.month", "Month");
+        pI.put("text.year", "Year");
+        UtilCalendarModel modelF = new UtilCalendarModel();
+        Properties pF = new Properties();
+        pF.put("text.today", "Today");
+        pF.put("text.month", "Month");
+        pF.put("text.year", "Year");
+        JDatePanelImpl datePanelInicial = new JDatePanelImpl(modelI, pI);
+        JDatePanelImpl datePanelFinal = new JDatePanelImpl(modelF, pF);
+        
+        JDatePickerImpl datePickerInicial = new JDatePickerImpl(datePanelInicial, new DateComponentFormatter());
+        JDatePickerImpl datePickerFinal = new JDatePickerImpl(datePanelFinal, new DateComponentFormatter());
+ 
+        this.setLayout(new BorderLayout());
+        JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel p4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        
+        
+        // Adicionando os botões na tela
+        p1.add(dataInicial);
+        p1.add(datePickerInicial);
+        p2.add(dataFinal);
+        p2.add(datePickerFinal);
+        p3.add(BtCalcular);
+        p3.add(BtVoltar);
+        p4.add(total);
+        
+        JPanel pStart = new JPanel();
+        pStart.setLayout(new BoxLayout(pStart, BoxLayout.Y_AXIS));
+        pStart.add(p1);
+        pStart.add(p2);
+        pStart.add(p3);
+        pStart.add(p4);
+        this.add(pStart, BorderLayout.PAGE_START);
+
+        // Definindo a ação do botão BtCalcular, que vai colher os dados e chamar a função para calcular o valor total
+        BtCalcular.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Calendar inicio = (Calendar) datePickerInicial.getModel().getValue();
+                Calendar fim = (Calendar) datePickerFinal.getModel().getValue();
+                
+                total.setText(objCtrPrincipal.getObjCtrImovel().TotalFat(objCtrPrincipal.getObjCtrImovel().getListaImovel(), inicio, fim));
+            }
+        });
+        BtVoltar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                JPanel cards = objLimPrincipal.cards;
+                CardLayout principal = (CardLayout) (cards.getLayout());
+                principal.show(cards, "Tela Principal");
             }
         });
 

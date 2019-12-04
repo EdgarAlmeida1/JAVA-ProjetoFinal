@@ -90,10 +90,12 @@ public class LimitePrincipal extends JFrame {
 
         JMenu relatorioMenu = new JMenu("Relatorios");
         menu.add(relatorioMenu);
-        JMenuItem valorTotal = new JMenuItem("Listagem de imovel por vendedor");
+        JMenuItem imoveisVendedor = new JMenuItem("Listagem de imovel por vendedor");
         JMenuItem relatorioVendas = new JMenuItem("Vendas por periodo");
-        relatorioMenu.add(valorTotal);
+        JMenuItem valorTotal = new JMenuItem("Valor total faturado");
+        relatorioMenu.add(imoveisVendedor);
         relatorioMenu.add(relatorioVendas);
+        relatorioMenu.add(valorTotal);
         //***************************************************************************************************
 
         // Cards de ações
@@ -228,14 +230,24 @@ public class LimitePrincipal extends JFrame {
             }
         });
 
+        imoveisVendedor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LimiteImovel imoveisPorVendedor = new LimiteImovel(objCtrPrincipal, LimitePrincipal.this, 6);
+                imoveisPorVendedor.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                cards.add(imoveisPorVendedor, "Imoveis Vendedor");
+                CardLayout cardImoveisVendedor = (CardLayout) (cards.getLayout());
+                cardImoveisVendedor.show(cards, "Imoveis Vendedor");
+            }
+        });
         valorTotal.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                LimiteImovel valorTotalVendas = new LimiteImovel(objCtrPrincipal, LimitePrincipal.this, 6);
+                LimiteImovel valorTotalVendas = new LimiteImovel(objCtrPrincipal, LimitePrincipal.this, 7);
                 valorTotalVendas.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-                cards.add(valorTotalVendas, "Imoveis Valor Total");
+                cards.add(valorTotalVendas, "Valor Total");
                 CardLayout cardValorTotal = (CardLayout) (cards.getLayout());
-                cardValorTotal.show(cards, "Imoveis Valor Total");
+                cardValorTotal.show(cards, "Valor Total");
             }
         });
     }
