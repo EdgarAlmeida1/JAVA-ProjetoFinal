@@ -61,6 +61,7 @@ public class ControleImovel {
                         + "Tipo: " + arrayImovel.get(i).getTipo() + "\n"
                         + "Preço R$:" + value + "\n"
                         + "Descrição: " + arrayImovel.get(i).getDescricao() + "\n"
+                        + "Data: " + LeData(arrayImovel.get(i).getDataInclusao()) + "\n"
                         + "Vendedor: " + arrayImovel.get(i).getVendedor().getNome() + "\n"
                         + "Valor de comissão: " + arrayImovel.get(i).getComissao() * value + "\n");
 
@@ -76,6 +77,26 @@ public class ControleImovel {
             }
 
         }
+    }
+    
+    // Recebe uma Calendar e retorna uma String com a data 
+    public String LeData(Calendar data) {
+        String result = ("");
+        String dia, mes, ano;
+
+        dia = String.valueOf(data.get(Calendar.DAY_OF_MONTH));
+        mes = String.valueOf(data.get(Calendar.MONTH));
+        ano = String.valueOf(data.get(Calendar.YEAR));
+
+        if (mes.equals("11")) {
+            mes = ("12");
+        }
+
+        if (mes.equals("0")) {
+            mes = ("1");
+        }
+
+        return result = (dia + "/" + mes + "/" + ano);
     }
 
     //Listagem de imoveis por vendedor

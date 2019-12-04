@@ -33,7 +33,7 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
         objLimPrincipal = objLimPrin;
         objCtrPrincipal = objCtrPrin;
         vendedores = objCtrPrincipal.getObjCtrVendedor().getArrayVendedor();
-        this.setSize(800, 480);
+        this.setSize(800, 600);
         this.setLayout(new FlowLayout());
 
         switch (operacao) {

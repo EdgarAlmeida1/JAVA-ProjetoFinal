@@ -13,7 +13,7 @@ public class LimitePrincipal extends JFrame {
     public LimitePrincipal(ControlePrincipal objCtrPrin) {
         // Criação da JFrame
         super("IMOBILIARIA ItaHouse");
-        this.setSize(800, 480);
+        this.setSize(800, 600);
         this.setResizable(false);
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.setLocationRelativeTo(null);
