@@ -156,6 +156,10 @@ class LimiteImovel extends JPanel implements ListSelectionListener {
                     destination = new File("images/" + txtCodigo.getText());
                     try {
                         if (selectedFile != null) {
+                            String direc = "images/";
+                            File directory = new File(direc);
+                            if (!directory.exists()) directory.mkdir();
+                            
                             objCtrPrincipal.getObjCtrImovel().copiaArquivo(selectedFile, destination);
                         }
                     } catch (IOException ex) {
